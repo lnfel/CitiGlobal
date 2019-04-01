@@ -1,0 +1,41 @@
+      <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
+      <ul class="br-sideleft-menu">
+        <li class="br-menu-item">
+          <a href="index.html" class="br-menu-link">
+            <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+            <span class="menu-item-label">Dashboard</span>
+          </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+          <a href="auth-register.html" class="br-menu-link">
+            <i class="menu-item-icon icon ion-person-add tx-24"></i>
+            <span class="menu-item-label">Register</span>
+          </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+          <a href="employee.html" class="br-menu-link">
+            <i class="menu-item-icon icon ion-person tx-24"></i>
+            <span class="menu-item-label">Employee</span>
+          </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+        <li class="br-menu-item">
+          <a href="client.html" class="br-menu-link">
+            <i class="menu-item-icon icon ion-person-stalker tx-24"></i>
+            <span class="menu-item-label">Client</span>
+          </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+        
+
+      <br>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var current = window.location.pathname.split("/")[4];
+
+          $(".br-menu-item a").each(function() {
+            if($(this).attr("href") === current) {
+              $(this).addClass("active");
+            }
+          });
+        });
+      </script>

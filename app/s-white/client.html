@@ -1,0 +1,416 @@
+<?php
+  session_start();
+  include "../php/connection.php";
+  /*header("Access-Control-Allow-Origin: *");*/
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket Plus">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+    <!-- Facebook -->
+    <!-- <meta property="og:url" content="http://themepixels.me/bracketplus">
+    <meta property="og:title" content="Bracket Plus">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600"> -->
+
+    <meta property="og:image:height" content="52">
+    <meta property="og:image:width" content="99">
+    <meta property="og:title" content="Maaasahan. Mapagkakatiwalaan | CitiGlobal">
+    <meta property="og:description" content="Property Investment | Best Real Estate Developer in the Philippines - CitiGlobal Realty &amp;amp; Development, Inc.">
+    <meta property="og:image" content="https://citiglobal.com.ph/img/facebook/meta/og-image.jpg">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="Mango System">
+
+    <title>CitiGlobal</title>
+
+    <!-- vendor css -->
+    <link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../lib/highlightjs/styles/github.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+    <!-- <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet"> -->
+
+    <!-- Data Table -->
+    <link rel="stylesheet" href="../lib/datatables.net-dt/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="../css/bracket.simple-white.css">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/icons/favicon-16x16.png">
+    <link rel="manifest" href="../img/icons/site.webmanifest">
+    <link rel="shortcut icon" href="../img/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="CitiGlobal">
+    <meta name="application-name" content="CitiGlobal">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="../img/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="../img/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body>
+    <!-- Modal -->
+    <div id="modal" class="modal fade">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+          <div class="modal-body tx-center pd-y-20 pd-x-20">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">x</span>
+            </button>
+            <i class="icon ion-ios-checkmark-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+            <h4 class="tx-success mg-b-20">
+              
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+
+    </div>
+    <div class="br-sideleft sideleft-scrollbar">
+      
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+        <div class="br-logo-mobile"><a href=""><img src="../img/citiglobal-logo.png" width="200px"></a></div>
+      </div>
+      <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a class="nav-link nav-link-profile" href="" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down">
+                Batangas Man
+              </span>
+              <img src="https://via.placeholder.com/500" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-250" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-65px, 48px, 0px);">
+              <div class="tx-center">
+                <a href=""><img src="https://via.placeholder.com/500" class="wd-80 rounded-circle" alt=""></a>
+                <h6 class="logged-fullname">Batangas Man</h6>
+                <p>batman.en.robin@citiglobal.com</p>
+              </div>
+              <hr>
+              <div class="tx-center">
+                <span class="profile-earning-label">Earnings After Taxes</span>
+                <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+                <span class="profile-earning-text">Based on list price.</span>
+              </div>
+              <hr>
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
+                <li><a href=""><i class="icon ion-power"></i> Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <!-- input-group -->
+      </div><!-- br-header-left -->
+      <!-- br-header-right -->
+    </div><!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: RIGHT PANEL ########## -->
+    <!-- br-sideright -->
+    <!-- ########## END: RIGHT PANEL ########## --->
+
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+      <div class="br-pagetitle">
+        <h4>Client Relations</h4>
+      </div>
+      <div class="br-pagebody">
+
+        <!-- br-pagebody content -->
+        <div class="br-section-wrapper">
+          <div class="br-section-label">
+            <h6>Awareness</h6>
+          </div>
+          <div id="table-wrapper">
+            <table id="awareness" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>E-mail</th>
+                    <th>Contact Number</th>
+                    <th>Country</th>
+                    <th>Facebook</th>
+                    <th>Source</th>
+                    <th>Buying Purpose</th>
+                    <th>Interest Level</th>
+                    <th>Preferred Size</th>
+                    <th>Notes</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>E-mail</th>
+                    <th>Contact Number</th>
+                    <th>Country</th>
+                    <th>Facebook</th>
+                    <th>Source</th>
+                    <th>Buying Purpose</th>
+                    <th>Interest Level</th>
+                    <th>Preferred Size</th>
+                    <th>Notes</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="br-section-label">
+            <h6>Consideration</h6>
+          </div>
+          <div id="table-wrapper">
+            <table id="consideration" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                    <th>Qualifications</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Estimated Value</th>
+                    <th>Account</th>
+                    <th>Primary Contact</th>
+                    <th>Interaction</th>
+                    <th>Sales Representative</th>
+                    <th>Proposal Deadline</th>
+                    <th>Expected Close Date</th>
+                    <th>Last Contact</th>
+                    <th>Client Name</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>Qualifications</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Estimated Value</th>
+                    <th>Account</th>
+                    <th>Primary Contact</th>
+                    <th>Interaction</th>
+                    <th>Sales Representative</th>
+                    <th>Proposal Deadline</th>
+                    <th>Expected Close Date</th>
+                    <th>Last Contact</th>
+                    <th>Client Name</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="br-section-label">
+            <h6>Decision</h6>
+          </div>
+          <div id="table-wrapper">
+            <table id="decision" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                    <th>Qualifications</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Estimated Value</th>
+                    <th>Account</th>
+                    <th>Primary Contact</th>
+                    <th>Interaction</th>
+                    <th>Sales Representative</th>
+                    <th>Proposal Deadline</th>
+                    <th>Expected Close Date</th>
+                    <th>Last Contact</th>
+                    <th>Client Name</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>Qualifications</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Estimated Value</th>
+                    <th>Account</th>
+                    <th>Primary Contact</th>
+                    <th>Interaction</th>
+                    <th>Sales Representative</th>
+                    <th>Proposal Deadline</th>
+                    <th>Expected Close Date</th>
+                    <th>Last Contact</th>
+                    <th>Client Name</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div><!-- br-pagebody -->
+      <footer class="br-footer justify-content-center">
+
+      </footer>
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../lib/moment/min/moment.min.js"></script>
+    <script src="../lib/peity/jquery.peity.min.js"></script>
+    <script src="../lib/highlightjs/highlight.pack.min.js"></script>
+    <!-- Data Tables -->
+    <script src="../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../js/dataTables.material.min.js"></script> -->
+    <script src="../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+    <script src="../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+    <script src="../lib/select2/js/select2.min.js"></script>
+
+    <script src="../js/bracket.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script type="text/javascript">
+      //Load reusable html files
+      $(document).ready(function(){
+        $(".br-logo").load("include/logo.html");
+        $(".br-sideleft").load("include/sideLeftMain.html");
+        $(".br-footer").load("include/footer.html");
+
+         $("#login-button").click(function(event){
+             event.preventDefault();
+           
+           $('.card-login').fadeOut(500);
+           $('.wrapper').addClass('form-success');
+        });
+
+        var awarenessTbl = $('#awareness').DataTable({
+          /*"processing": true,
+          "serverSide": true,
+           select: true,
+           responsive: true,
+           language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/server_processing.php"
+          }*/
+        });
+        var considerationTbl = $('#consideration').DataTable({});
+        var decisionTbl = $('#decision').DataTable({});
+
+        $('#data-table tbody').on( 'click', 'tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+          }
+          else {
+              table.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+          }
+        } );
+
+        $('#buttonDelete').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
+
+        $('#button').click( function () {
+            var ids = table.rows('.selected').data();
+            /*var ids = $.map(table.rows('.selected').data(), function (item) {
+              return item[0]
+            });*/
+            var lastname = [];
+            var firstname = [];
+            var dataArr = [];
+            $.each($('#data-table tr.selected'), function(){
+              dataArr.push($(this).find('td').eq(0).text());
+              dataArr.push($(this).find('td').eq(1).text());
+              dataArr.push($(this).find('td').eq(2).text());
+              dataArr.push($(this).find('td').eq(3).text());
+              dataArr.push($(this).find('td').eq(4).text());
+              dataArr.push($(this).find('td').eq(5).text());
+              dataArr.push($(this).find('td').eq(6).text());
+              dataArr.push($(this).find('td').eq(7).text());
+              dataArr.push($(this).find('td').eq(8).text());
+            });
+
+            //transfer data
+            $('input[name=lastname]').val(dataArr[0]).prop('readonly', true);
+            $('input[name=firstname]').val(dataArr[1]).prop('readonly', true);
+            $('input[name=employeeid]').val(dataArr[2]).prop('readonly', true);
+            $('input[name=departmentid]').val(dataArr[3]).prop('readonly', true);
+            $('input[name=positionid]').val(dataArr[4]).prop('readonly', true);
+            $('input[name=employeetype]').val(dataArr[5]).prop('readonly', true);
+            $('input[name=statusid]').val(dataArr[6]).prop('readonly', true);
+            $('input[name=telephone]').val(dataArr[7]).prop('readonly', true);
+            $('input[name=mobile]').val(dataArr[8]).prop('readonly', true);
+
+            //heres a native function from datatables
+            /*var dataArr = [];
+            var rows = $('tr.selected');
+            var rowData = table.rows(rows).data();
+            $.each($(rowData),function(key,value){
+                dataArr.push(value["name"]); //"name" being the value of your first column.
+            });
+            console.log(dataArr);*/
+
+            console.log(ids);
+            console.log(dataArr);
+            console.log(dataArr[1]);
+            alert(table.rows('.selected').data().length + ' row(s) selected');
+        } );
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+      });
+    </script>
+  </body>
+</html>

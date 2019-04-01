@@ -1,0 +1,472 @@
+<?php
+  session_start();
+  include "../php/connection.php";
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket Plus">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/bracketplus">
+    <meta property="og:title" content="Bracket Plus">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+    <title>CitiGlobal</title>
+
+    <!-- vendor css -->
+    <link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../lib/highlightjs/styles/github.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+    <!-- <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet"> -->
+
+    <!-- Data Table -->
+    <link rel="stylesheet" href="../lib/datatables.net-dt/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="../css/bracket.simple-white.css">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css"> -->
+  </head>
+
+  <body>
+    <!-- Modal -->
+    <div id="modal" class="modal fade">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+          <div class="modal-body tx-center pd-y-20 pd-x-20">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">x</span>
+            </button>
+            <i class="icon ion-ios-checkmark-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+            <h4 class="tx-success mg-b-20"></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+      
+    </div>
+    <div class="br-sideleft sideleft-scrollbar">
+      
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+        <div class="br-logo-mobile"><a href=""><img src="../img/citiglobal-logo.png" width="200px"></a></div>
+      </div>
+      <div class="br-header-right">
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <!-- input-group -->
+      </div><!-- br-header-left -->
+      <!-- br-header-right -->
+    </div><!-- br-header -->
+    <div class="br-mainpanel">
+      <div class="br-pagetitle">
+        <h4>Employee</h4>
+      </div>
+      <div class="br-pagebody">
+
+        <!-- br-pagebody content -->
+        <div class="br-section-wrapper">
+	        <div class="br-section-label">
+	        	<!-- <h6>Add Account</h6> -->
+	        </div>
+          <div id="table-wrapper">
+            <table id="data-table" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>Employee ID</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Employee Type</th>
+                    <th>Status ID</th>
+                    <th>Telephone</th>
+                    <th>Mobile</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>Employee ID</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Employee Type</th>
+                    <th>Status</th>
+                    <th>Telephone</th>
+                    <th>Mobile</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <button id="button" class="btn btn-primary">Create Account</button>
+          <h6 class="mg-t-40">Add Account</h6>
+          <!-- Form -->
+          <form class="needs-validation mg-t-20" action="" method="POST" novalidate="">
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="lastname" placeholder="Last Name" required mb-3>
+                <div class="invalid-feedback">
+                  Last Name is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="firstname" placeholder="First Name" required>
+                <div class="invalid-feedback">
+                  First Name is required.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="employeeid" placeholder="Employee ID" required mb-3>
+                <div class="invalid-feedback">
+                  Last Name is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="departmentid" placeholder="Department ID" required>
+                <div class="invalid-feedback">
+                  First Name is required.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="positionid" placeholder="Position ID" required mb-3>
+                <div class="invalid-feedback">
+                  Last Name is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="employeetype" placeholder="Employee Type" required>
+                <div class="invalid-feedback">
+                  First Name is required.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="statusid" placeholder="Status" required mb-3>
+                <div class="invalid-feedback">
+                  Last Name is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- <input class="form-control" type="text" name="departmentid" placeholder="Department ID" required>
+                <div class="invalid-feedback">
+                  First Name is required.
+                </div> -->
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="telephone" placeholder="Telephone" required mb-3>
+                <div class="invalid-feedback">
+                  Last Name is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="mobile" placeholder="Mobile" required>
+                <div class="invalid-feedback">
+                  First Name is required.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <h6>Account Details</h6>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="accounttype" placeholder="Account Type" required mb-3>
+                <div class="invalid-feedback">
+                  Select an account type.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="accountstatus" placeholder="Account Status" required>
+                <div class="invalid-feedback">
+                  Select an account status.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <input class="form-control" type="text" name="username" placeholder="Username" required mb-3>
+                <div class="invalid-feedback">
+                  Please input a username.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
+                <div class="invalid-feedback">
+                  Password is required.
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="form-row justify-content-center">
+              <div class="col-6 mb-3">
+                <input class="btn btn-primary wd-100p" type="submit" name="submit" value="Submit" required mb-3>
+              </div>
+            </div>
+            <!--  -->
+          </form>
+    	</div>
+      </div><!-- br-pagebody -->
+      <footer class="br-footer justify-content-center">
+
+      </footer>
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../lib/moment/min/moment.min.js"></script>
+    <script src="../lib/peity/jquery.peity.min.js"></script>
+    <script src="../lib/highlightjs/highlight.pack.min.js"></script>
+    <!-- Data Tables -->
+    <script src="../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../js/dataTables.material.min.js"></script> -->
+    <script src="../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+    <script src="../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+    <script src="../lib/select2/js/select2.min.js"></script>
+
+    <script src="../js/bracket.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script type="text/javascript">
+      //Load reusable html files
+      $(document).ready(function(){
+        $(".br-logo").load("include/logo.html");
+        $(".br-sideleft").load("include/sideLeftMain.html");
+        $(".br-footer").load("include/footer.html");
+        
+        var table = $('#data-table').DataTable({
+          "processing": true,
+          "serverSide": true,
+           select: true,
+           responsive: true,
+           language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/server_processing.php"
+          }
+        });
+
+        $('#data-table tbody').on( 'click', 'tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+          }
+          else {
+              table.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+          }
+        } );
+
+        $('#buttonDelete').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
+
+        $('#button').click( function () {
+            var ids = table.rows('.selected').data();
+            /*var ids = $.map(table.rows('.selected').data(), function (item) {
+              return item[0]
+            });*/
+            var lastname = [];
+            var firstname = [];
+            var dataArr = [];
+            $.each($('#data-table tr.selected'), function(){
+              dataArr.push($(this).find('td').eq(0).text());
+              dataArr.push($(this).find('td').eq(1).text());
+              dataArr.push($(this).find('td').eq(2).text());
+              dataArr.push($(this).find('td').eq(3).text());
+              dataArr.push($(this).find('td').eq(4).text());
+              dataArr.push($(this).find('td').eq(5).text());
+              dataArr.push($(this).find('td').eq(6).text());
+              dataArr.push($(this).find('td').eq(7).text());
+              dataArr.push($(this).find('td').eq(8).text());
+            });
+
+            //transfer data
+            $('input[name=lastname]').val(dataArr[0]).prop('readonly', true);
+            $('input[name=firstname]').val(dataArr[1]).prop('readonly', true);
+            $('input[name=employeeid]').val(dataArr[2]).prop('readonly', true);
+            $('input[name=departmentid]').val(dataArr[3]).prop('readonly', true);
+            $('input[name=positionid]').val(dataArr[4]).prop('readonly', true);
+            $('input[name=employeetype]').val(dataArr[5]).prop('readonly', true);
+            $('input[name=statusid]').val(dataArr[6]).prop('readonly', true);
+            $('input[name=telephone]').val(dataArr[7]).prop('readonly', true);
+            $('input[name=mobile]').val(dataArr[8]).prop('readonly', true);
+
+            //heres a native function from datatables
+            /*var dataArr = [];
+            var rows = $('tr.selected');
+            var rowData = table.rows(rows).data();
+            $.each($(rowData),function(key,value){
+                dataArr.push(value["name"]); //"name" being the value of your first column.
+            });
+            console.log(dataArr);*/
+
+            console.log(ids);
+            console.log(dataArr);
+            console.log(dataArr[1]);
+            alert(table.rows('.selected').data().length + ' row(s) selected');
+        } );
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+      });
+
+      //end of document.ready
+
+      /*var table2 = $('#data-table').DataTable({
+        select: true
+      });*/
+      //var tableBody = table + "tbody";
+      
+      
+      //$('table#data-table').width("auto"); this is not working
+
+      /*,
+          "columns": [
+            { "data": "LAST_NAME" },
+            { "data": "FIRST_NAME" },
+            { "data": "EMPLOYEE_ID" },
+            { "data": "DEPARTMENT_ID" },
+            { "data": "POSITION_ID" },
+            { "data": "EMPLOYEE_TYPEID" },
+            { "data": "STATUS_ID" },
+            { "data": "TEL_NO" },
+            { "data": "CONTACT_NO_1" }
+          ]*/
+    </script>
+    <style type="text/css">
+      table#data-table {
+        /*this is to overried datatable table size initialization which is quite peculiar*/
+        width: auto!important;
+      }
+    </style>
+    <?php
+      //Register
+      if (isset($_POST['submit'])) {
+        include "../php/connection.php";
+        
+        //put all items in variable
+        $lastname = $conn->real_escape_string($_POST["lastname"]);
+        $firstname = $conn->real_escape_string($_POST["firstname"]);
+        $employeeid = $conn->real_escape_string($_POST["employeeid"]);
+        $departmentid = $conn->real_escape_string($_POST["departmentid"]);
+        $positionid = $conn->real_escape_string($_POST["positionid"]);
+        $employeetype = $conn->real_escape_string($_POST["employeetype"]);
+        $statusid = $conn->real_escape_string($_POST["statusid"]);
+        $telephone = $conn->real_escape_string($_POST["telephone"]);
+        $mobile = $conn->real_escape_string($_POST["mobile"]);
+
+        //account
+        $accounttype = $conn->real_escape_string($_POST["accounttype"]);
+        $accountstatus = $conn->real_escape_string($_POST["accountstatus"]);
+        $username = $conn->real_escape_string($_POST["username"]);
+        $password = sha1($conn->real_escape_string($_POST["password"]));
+
+        //Session
+        $_SESSION['NAME'] = $firstname;
+
+        $sqlinsert = "INSERT INTO account (
+                                AccountTypeID
+                               ,Username
+                               ,Password
+                               ,LastName
+                               ,FirstName
+                               ,EmployeeID
+                               ,PositionID
+                               ,AccountStatus
+                               ,PasswordDateChange
+                               ,DateCreated
+                                ) VALUES (
+                                '$accounttype'
+                               ,'$username'
+                               ,'$password'
+                               ,'$lastname'
+                               ,'$firstname'
+                               ,'$employeeid'
+                               ,'$positionid'
+                               ,'$accountstatus'
+                               ,''
+                               ,now()
+                                )";
+
+        if ($conn->query($sqlinsert)) {
+          echo '<script>$("#modal").find(".modal-body h4").text("Registration Success!");$("#modal").modal("show");</script>';
+          /*echo '<script>$("#modal").find(".modal-body h4").text("Registration for "'.$_SESSION['NAME'].'" Success!");$("#modal").modal("show");</script>';*/
+        } else {
+            echo '<script>$("#modal").find(".modal-body h4").text("An error occured while creating the account. Please try again.");$("#modal").modal("show");</script>';
+        }
+
+
+      }
+    ?>
+  </body>
+</html>

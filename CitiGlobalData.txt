@@ -1,0 +1,76 @@
+---------------------------------------------
+Client Data
+
+Client ID
+First Name
+Middle Name
+Last Name
+E-mail
+Phone Number
+Address Details
+Buying Stage
+
+Update 03/22/2019
+Created Table prospect
+columns:
+	ClientID*
+	FirstName*
+	LastName
+	Email
+	ContactNumber
+	Country*
+	Facebook
+	ContactAgent* - Foreign Key from account table WHERE prospect.ContactAgent = account.AccountID
+	Project
+	Source*
+	BuyingPurpose
+	InterestLevel
+	StartDate
+	PreferredSize
+	Notes
+	BuyingStage
+
+	Add column:
+		TeamID
+
+Items with (*) are required fields.
+
+Created Table team
+	TeamID - Primary Key
+	TeamName
+	TeamLeadID - reference to AccountID(AgentID) with PositionID = Leader
+	Agents - using foreign key "SELECT * FROM agent WHERE TeamID = this.TeamID"
+
+Created Table agent?
+
+Created Table interaction
+	InteractionID - Primary Key
+	AccountID(AgentID) - Foreign key XD
+	Notes
+	DateCreated
+	DateModified
+
+
+---------------------------------------------
+Sales Representative Data, Team Leader Data
+
+Modify Table account
+	AccountID - Primary Key
+	AccountTypeID - foreign key :)
+	Username
+	Password
+	LastName
+	FirstName
+	MiddleName
+	EmployeeID - reference to EMPLOYEE_ID from employee table
+	PositionID - foreign key as well
+	WelcomeMessage - (X) To be removed
+	AccountStatus
+	PasswordDateChange
+	DateCreated
+	DateModified
+
+	Add column:
+		TeamID - reference to TeamID from team table WHERE team.TeamID = account.TeamID
+		ClientID - reference to ClientID from prospect table WHERE prospect.ClientID = account.ClientID
+---------------------------------------------
