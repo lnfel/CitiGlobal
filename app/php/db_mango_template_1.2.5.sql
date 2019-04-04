@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2019 at 11:11 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.1.27
+-- Generation Time: Apr 04, 2019 at 07:32 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -349,10 +349,10 @@ CREATE TABLE `project` (
 --
 
 INSERT INTO `project` (`ProjectID`, `ProjectName`, `Unit`, `EstimatedAmount`, `FinalAmount`, `ClientID`, `AccountID`, `TeamID`, `BuyingStage`, `DateAware`, `DateConsidered`, `DateDecision`, `AverageDaysDecision`) VALUES
-(1, 'TCRS', NULL, NULL, NULL, 14, 55, 0, 'Awareness', '2019-03-29', '2019-04-03', '2019-04-03', NULL),
+(1, 'TCRS', 'unit tcrs-143', '36500', NULL, 14, 55, 0, 'Awareness', '2019-03-29', '2019-04-03', '2019-04-04', NULL),
 (2, 'DBR-SR', 'unit xhr-056', NULL, NULL, 1, 56, 1, 'Decision - Won', '2019-03-30', NULL, '2019-03-30', '0'),
-(3, 'TFV', NULL, NULL, NULL, 14, 55, 0, 'Consideration', '2019-03-29', NULL, NULL, NULL),
-(4, 'DBR-SR', NULL, NULL, NULL, 14, 55, 0, 'Decision - Won', '2019-03-29', NULL, NULL, NULL);
+(3, 'TFV', 'unit tfv-055', '22050', NULL, 14, 55, 0, 'Consideration', '2019-03-29', NULL, NULL, NULL),
+(4, 'DBR-SR', 'unit xhr-056', NULL, '25000', 14, 55, 0, 'Decision - Won', '2019-03-29', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
