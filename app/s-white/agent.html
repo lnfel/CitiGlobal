@@ -2,12 +2,26 @@
   session_start();
   include "../php/connection.php";
 
+  /*if the session id is not yet set (means user is not yet logged in)*/
+  if (!isset($_SESSION['ID'])) {
+    header("Location: index.html");
+  }
+
   /*echo $_SESSION['ID'];*/
   $agentID = $_SESSION['ID'];
   $agentSelect = "SELECT * FROM account WHERE AccountID = $agentID";
   $agentResult = $conn->query($agentSelect);
   $agentRow = $agentResult->fetch_assoc();
+
   $agentTeamID = $agentRow['TeamID'];
+  $positionID = $agentRow['PositionID'];
+  $_SESSION['positionID'] = $positionID;
+  /*Get position string value*/
+  $positionSelect = "SELECT * FROM employee_position WHERE POSITION_ID = $positionID";
+  $positionResult = $conn->query($positionSelect) or die($conn->error);
+  $positionRow = $positionResult->fetch_assoc();
+
+  $position = $positionRow['POSITION_FULL'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +145,25 @@
                       </div>
                       <div class="form-row mg-b-0-force">
                         <div class="col-sm-12 col-md-6 mg-b-20">
-                          <input type="text" name="source" class="form-control pd-y-12" placeholder="Source">
+                          <select name="source" class="form-control select2">
+                            <optgroup label="Source">
+                              <option disabled selected hidden>Source</option>
+                              <option value="Company Lead">Company Lead</option>
+                              <option value="Direct Call / Text">Direct Call / Text</option>
+                              <option value="Event">Event</option>
+                              <option value="Client Referral">Client Referral</option>
+                              <option value="Sub-Agent Referral">Sub-Agent Referral</option>
+                              <option value="Personal Network">Personal Network</option>
+                              <option value="Walk-in - Site">Walk-in - Site</option>
+                              <option value="Walk-in - Showroom">Walk-in - Showroom</option>
+                              <option value="Walk-in - Office">Walk-in - Office</option>
+                              <option value="Facebook">Facebook</option>
+                              <option value="IG / Twitter">IG / Twitter</option>
+                              <option value="Online Property Portal">Online Property Portal</option>
+                              <option value="Buy & Sell Ads">Buy & Sell Ads</option>
+                              <option value="Others">Others</option>
+                            </optgroup>
+                          </select>
                         </div>
                         <div class="col-sm-12 col-md-6 mg-b-20">
                           <input type="text" name="buyingpurpose" class="form-control pd-y-12" placeholder="Buying Purpose">
@@ -223,7 +255,7 @@
 
                   <div class="card-body pd-25">
                     <div id="table-wrapper">
-                      <table id="clientProjects" class="table display responsive nowrap">
+                      <table id="" class="table display responsive nowrap">
                         <thead>
                           <tr>
                               <th>Unit</th>
@@ -236,6 +268,8 @@
                         </thead>
                       </table>
                     </div>
+                    <!-- <button id="" class="btn btn-primary">Add Unit</button>
+                    <button id="clientMoveStage" class="btn btn-primary" disabled>Move Buying Stage</button> -->
                   </div>
                   </div>
                 </div><!-- card shadow-base pd-30 -->
@@ -296,7 +330,7 @@
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
                 <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
-                <li><a href=""><i class="icon ion-power"></i> Sign Out</a></li>
+                <li><a href="../php/logout.php"><i class="icon ion-power"></i> Sign Out</a></li>
               </ul>
             </div>
           </div>
@@ -316,7 +350,17 @@
     <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
       <div class="br-pagetitle">
-        <h4>Agent Board</h4>
+        <h4 class="title">
+          <?php
+            if ($positionID == 1) {
+              echo "Leader Board";
+            } elseif ($positionID == 2) {
+              echo "Agent Board";
+            } elseif ($positionID == 3) {
+              echo "Human Resource";
+            }
+          ?>
+        </h4>
       </div>
       <div class="br-pagebody">
 
@@ -347,7 +391,14 @@
                   echo $agentRow['FirstName']." ".$agentRow['MiddleName']." ".$agentRow['LastName'];
                 ?>
               </h4>
-              <p class="mg-b-25">Wine Connoisseur</p>
+              <p class="mg-b-25">
+                <!-- http://www.mysqltutorial.org/mysql-foreign-key/ 
+
+                  Wine Connoisseur-->
+                <?php
+                  echo $position;
+                ?>
+              </p>
 
               <p class="wd-md-500 mg-md-l-auto mg-md-r-auto mg-b-25">Singer, Lawyer, Achiever, Wearer of unrelated hats, Data Visualizer, Mayonaise Tester. I don't know what alt-tab does. Storyteller.</p>
 
@@ -368,50 +419,25 @@
               </nav>
             </div> --><!-- card-footer -->
           </div>
-          <div class="br-section-label">
-            <h6>Clients</h6>
+          <br>
+          <div id="agentBoard">
+            <?php
+              if ($positionID == 2) {
+                include "include/agentBoard.html";
+              } elseif ($positionID == 1) {
+                include "include/leaderBoard.html";
+              }
+            ?>
           </div>
-          <div id="table-wrapper">
-            <table id="client" class="table display responsive nowrap">
-              <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>E-mail</th>
-                    <th>Contact Number</th>
-                    <th>Country</th>
-                    <th>Facebook</th>
-                    <th>Source</th>
-                    <th>Buying Purpose</th>
-                    <th>Interest Level</th>
-                    <th>Preferred Size</th>
-                    <th>Notes</th>
-                    <th>ClientID</th>
-                    <th>TeamID</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>E-mail</th>
-                    <th>Contact Number</th>
-                    <th>Country</th>
-                    <th>Facebook</th>
-                    <th>Source</th>
-                    <th>Buying Purpose</th>
-                    <th>Interest Level</th>
-                    <th>Preferred Size</th>
-                    <th>Notes</th>
-                    <th>ClientID</th>
-                    <th>TeamID</th>
-                </tr>
-              </tfoot>
-            </table>
+          <div id="leaderBoard">
+            
           </div>
-          <button id="newProspect" class="btn btn-primary">New Prospect</button>
-          <button id="details" class="btn btn-primary" disabled>Manage</button>
-        </div>
+          <div id="executiveBoard">
+            
+          </div>
+          <!-- <button id="clientMoveStage" class="btn btn-primary" disabled>Move Buying Stage</button> -->
+          <!-- #clientProjects End -->
+        </div><!-- br-section-wrapper -->
       </div><!-- br-pagebody -->
       <footer class="br-footer justify-content-center">
 
@@ -536,6 +562,7 @@
         $('#details').click(function() {
           /*$('#clientDetails').modal('show');*/
           var ids = agentClients.rows('.selected').data();
+          /*Get hidden field value*/
           var clientID = agentClients.row('.selected').data()[11];
           var teamID = agentClients.row('.selected').data()[12];
           
@@ -568,19 +595,58 @@
 
           /*$.post('../php/client_projects_agentid.php', {clientID});*/
 
-          $('#clientDetails').modal('show');
+          /*$('#clientDetails').modal('show');*/
 
           /*Transfer data*/
           $('.client-name').text(dataArr[0] + " " + dataArr[1]);
 
-          $('#clientProjects').DataTable().destroy();
+          /*$('#clientProjects').DataTable().destroy();
+          $('#clientProjects tbody').empty();*/
+
+          /*var clientProjectsAgent = $('#clientProjects').DataTable({
+            initComplete: function() {
+              this.api().columns([1, 3]).every(function() {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                  .appendTo($(column.footer()).empty())
+                  .on('change', function() {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                      $(this).val()
+                    );
+
+                    column
+                      .search(val ? '^' + val + '$' : '', true, false)
+                      .draw();
+                  });
+
+                column.data().unique().sort().each(function(d, j) {
+                  select.append('<option value="' + d + '">' + d + '</option>');
+                });
+              });
+
+              this.api().columns([2, 4]).every(function() {
+                var that = this;
+                var input = $('<input type="text" placeholder="Search" />')
+                  .appendTo($(this.footer()).empty())
+
+                  .on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                      that
+                        .search(this.value)
+                        .draw();
+                    }
+                  });
+              });
+            }
+          });*/
 
           var clientProjectsAgent = $('#clientProjects').DataTable({
             "processing": true,
-            "serverSide": true,
-             select: true,
-             responsive: true,
-             language: {
+            /*"serverSide": true,*/
+            destroy: true,
+            select: true,
+            responsive: true,
+            language: {
               searchPlaceholder: 'Search...',
               sSearch: '',
               lengthMenu: '_MENU_ items/page',
@@ -594,7 +660,7 @@
             },
             "columnDefs": [
               {
-                  "targets": [ 4 ],
+                  "targets": [ 0 ],
                   "visible": false,
                   "searchable": false
               },
@@ -602,21 +668,113 @@
                   "targets": [ 5 ],
                   "visible": false,
                   "searchable": false
+              },
+              {
+                  "targets": [ 6 ],
+                  "visible": false,
+                  "searchable": false
               }
-            ]
-          });/*DataTable End*/
+            ]/*,
+            "drawCallback": function( settings ) {
+              $('#clientProjects tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                    $('#clientMoveStage').attr('disabled','disabled');
+                }
+                else {
+                    clientProjectsAgent.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#clientMoveStage').removeAttr('disabled');
+                }
+              });
+            }*/
+          }); /*DataTable End*/
+
+          $('#clientProjects').on( 'click', 'tbody tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                $('#clientMoveStage').attr('disabled','disabled');
+            }
+            else {
+                clientProjectsAgent.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                $('#clientMoveStage').removeAttr('disabled');
+            }
+          }); /*selected end*/
         });/*#details.click end*/
 
-        $('#clientProjects tbody').on( 'click', 'tr', function () {
+        $('#clientMoveStage').on('change', function() {
+          var buyingStage = this.value;
+          var clientID = agentClients.row('.selected').data()[11];
+          var teamID = agentClients.row('.selected').data()[12];
+          var selectedProject = $("#clientProjects").DataTable().rows('.selected').data();
+          var projectID = $("#clientProjects").DataTable().row('.selected').data()[0];
+          console.log(buyingStage);
+          console.log(selectedProject);
+          console.log(projectID);
+
+          $.ajax({
+            method: "POST",
+            url: "../php/client_move_buyingstage.php",
+            data: {
+              "buyingStage": buyingStage,
+              "projectID": projectID/*,
+              "clientID": clientID,
+              "teamID": teamID*/
+            },
+            dataType: "html"
+          })
+            .done(function(){
+              /*Refresh table with updated data*/
+              $("#clientProjects").DataTable().ajax.reload();
+            });/*Client Insert AJAX End*/
+        });
+
+        /*clientProjectsAgent.select();*/
+        
+        /*$("#clientProjects :search").on ('change', function(){
+          clientProjectsAgent.column(3)
+          .search($(this).val())
+          .draw();
+        });*/
+
+        /*$('#clientProjects tbody').on( 'click', 'tr', function () {
           if ( $(this).hasClass('selected') ) {
               $(this).removeClass('selected');
-              /*$('#details').attr('disabled','disabled');*/
+              $('#clientMoveStage').attr('disabled','disabled');
           }
           else {
               clientProjectsAgent.$('tr.selected').removeClass('selected');
               $(this).addClass('selected');
-              /*$('#details').removeAttr('disabled');*/
+              $('#clientMoveStage').removeAttr('disabled');
           }
+        });*/
+
+        var teamClient = $('#teamClient').DataTable({
+          "processing": true,
+          "serverSide": true,
+           select: true,
+           responsive: true,
+           language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/client_agentid.php"
+          },
+          "columnDefs": [
+            {
+                "targets": [ 11 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 12 ],
+                "visible": false,
+                "searchable": false
+            }
+          ]
         });
 
         /*Client Insert AJAX*/
@@ -649,8 +807,8 @@
 
               /*Clear form input fields*/
               $('#newClientForm :input, #newClientForm textarea').val('');
-            });
-        });/*Client Insert AJAX End*/
+            });/*Client Insert AJAX End*/
+        });/*#newClient click end*/
       });/*End of document.ready*/
     </script>
     <?php

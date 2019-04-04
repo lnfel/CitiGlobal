@@ -1,6 +1,27 @@
 <?php
   session_start();
   include "../php/connection.php";
+
+  /*if the session id is not yet set (means user is not yet logged in)*/
+  if (!isset($_SESSION['ID'])) {
+    header("Location: index.html");
+  }
+
+  /*echo $_SESSION['ID'];*/
+  $agentID = $_SESSION['ID'];
+  $agentSelect = "SELECT * FROM account WHERE AccountID = $agentID";
+  $agentResult = $conn->query($agentSelect);
+  $agentRow = $agentResult->fetch_assoc();
+
+  $agentTeamID = $agentRow['TeamID'];
+  $positionID = $agentRow['PositionID'];
+  $_SESSION['positionID'] = $positionID;
+  /*Get position string value*/
+  $positionSelect = "SELECT * FROM employee_position WHERE POSITION_ID = $positionID";
+  $positionResult = $conn->query($positionSelect) or die($conn->error);
+  $positionRow = $positionResult->fetch_assoc();
+
+  $position = $positionRow['POSITION_FULL'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,6 +105,46 @@
         <div class="br-logo-mobile"><a href=""><img src="../img/citiglobal-logo.png" width="200px"></a></div>
       </div>
       <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a class="nav-link nav-link-profile" href="" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down">
+                <?php
+                  echo $agentRow['FirstName'];
+                ?>
+              </span>
+              <img src="https://via.placeholder.com/500" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-250" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-65px, 48px, 0px);">
+              <div class="tx-center">
+                <a href=""><img src="https://via.placeholder.com/500" class="wd-80 rounded-circle" alt=""></a>
+                <h6 class="logged-fullname">
+                  <?php
+                    /*echo $agentFirstName." ".$agentLastName;*/
+                    echo $agentRow['FirstName']." ".$agentRow['LastName'];
+                  ?>
+                </h6>
+                <p>batman.en.robin@citiglobal.com</p>
+              </div>
+              <hr>
+              <div class="tx-center">
+                <span class="profile-earning-label">Earnings After Taxes</span>
+                <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+                <span class="profile-earning-text">Based on list price.</span>
+              </div>
+              <hr>
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
+                <li><a href="../php/logout.php"><i class="icon ion-power"></i> Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
         <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
         <!-- input-group -->
@@ -214,13 +275,27 @@
             <!--  -->
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <input class="form-control" type="text" name="accounttype" placeholder="Account Type" required mb-3>
+                <!-- <input class="form-control" type="text" name="accounttype" placeholder="Account Type" required mb-3> -->
+                <select name="accounttype" class="form-control select2" required>
+                  <optgroup label="Account Type">
+                    <option disabled hidden>Account Type</option>
+                    <option value="5">Team Leader</option>
+                    <option value="6" selected>Sales Representative</option>
+                  </optgroup>
+                </select>
                 <div class="invalid-feedback">
                   Select an account type.
                 </div>
               </div>
               <div class="col-md-6">
-                <input class="form-control" type="text" name="accountstatus" placeholder="Account Status" required>
+                <!-- <input class="form-control" type="text" name="accountstatus" placeholder="Account Status" required> -->
+                <select name="accountstatus" class="form-control select2" required>
+                  <optgroup label="Account Status">
+                    <option disabled hidden>Account Status</option>
+                    <option value="1" selected>Active</option>
+                    <option value="3">Transfer</option>
+                  </optgroup>
+                </select>
                 <div class="invalid-feedback">
                   Select an account status.
                 </div>

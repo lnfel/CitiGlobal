@@ -21,6 +21,25 @@ table {
   width: 100% !important;
 }
 
+#client th:nth-child(odd), #clientProjects th:nth-child(odd) {
+  background: #da5f5f8a;/*#5f9cda*/
+}
+
+#client th:nth-child(even), #clientProjects th:nth-child(even) {
+  background: #de5763b5;
+}
+
+#client tbody tr > td:first-child::before {
+  background-color: none!important;
+}
+/*table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::before {
+  background-color: none!important;
+}*/
+
+table.dataTable.display tbody tr.odd.selected, table.dataTable.display tbody tr.even.selected {
+  color: white;
+}
+
 @media (max-width: 991.98px) {
 	.collapsed-menu .br-logo {
 		left: 10px;
@@ -88,6 +107,10 @@ table {
 
 table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc {
   background: none;
+}
+
+.widget-4 .card-header {
+  background-color: #5f9cda;
 }
 
 /*Login Bubbles*/

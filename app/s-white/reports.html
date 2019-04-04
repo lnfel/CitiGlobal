@@ -1,0 +1,326 @@
+<?php
+  session_start();
+  include "../php/connection.php";
+
+  $agentID = $_SESSION['ID'];
+  $agentSelect = "SELECT * FROM account WHERE AccountID = $agentID";
+  $agentResult = $conn->query($agentSelect);
+  $agentRow = $agentResult->fetch_assoc();
+
+  $agentTeamID = $agentRow['TeamID'];
+  $positionID = $agentRow['PositionID'];
+  $_SESSION['positionID'] = $positionID;
+  /*Get position string value*/
+  $positionSelect = "SELECT * FROM employee_position WHERE POSITION_ID = $positionID";
+  $positionResult = $conn->query($positionSelect) or die($conn->error);
+  $positionRow = $positionResult->fetch_assoc();
+
+  $position = $positionRow['POSITION_FULL'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket Plus">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+    <!-- Facebook -->
+    <!-- <meta property="og:url" content="http://themepixels.me/bracketplus">
+    <meta property="og:title" content="Bracket Plus">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600"> -->
+
+    <meta property="og:image:height" content="52">
+    <meta property="og:image:width" content="99">
+    <meta property="og:title" content="Maaasahan. Mapagkakatiwalaan | CitiGlobal">
+    <meta property="og:description" content="Property Investment | Best Real Estate Developer in the Philippines - CitiGlobal Realty &amp;amp; Development, Inc.">
+    <meta property="og:image" content="https://citiglobal.com.ph/img/facebook/meta/og-image.jpg">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="Mango System">
+
+    <title>CitiGlobal</title>
+
+    <!-- vendor css -->
+    <link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../lib/highlightjs/styles/github.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
+    <!-- <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet"> -->
+
+    <!-- Data Table -->
+    <link rel="stylesheet" href="../lib/datatables.net-dt/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="../css/bracket.simple-white.css">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/icons/favicon-16x16.png">
+    <link rel="manifest" href="../img/icons/site.webmanifest">
+    <link rel="shortcut icon" href="../img/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="CitiGlobal">
+    <meta name="application-name" content="CitiGlobal">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="../img/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="../img/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body>
+  	<!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+
+    </div>
+    <div class="br-sideleft sideleft-scrollbar">
+      
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+        <div class="br-logo-mobile"><a href=""><img src="../img/citiglobal-logo.png" width="200px"></a></div>
+      </div>
+      <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a class="nav-link nav-link-profile" href="" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down">
+                <?php
+                  echo $agentRow['FirstName'];
+                ?>
+              </span>
+              <img src="https://via.placeholder.com/500" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-250" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-65px, 48px, 0px);">
+              <div class="tx-center">
+                <a href=""><img src="https://via.placeholder.com/500" class="wd-80 rounded-circle" alt=""></a>
+                <h6 class="logged-fullname">
+                  <?php
+                    /*echo $agentFirstName." ".$agentLastName;*/
+                    echo $agentRow['FirstName']." ".$agentRow['LastName'];
+                  ?>
+                </h6>
+                <p>batman.en.robin@citiglobal.com</p>
+              </div>
+              <hr>
+              <div class="tx-center">
+                <span class="profile-earning-label">Earnings After Taxes</span>
+                <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+                <span class="profile-earning-text">Based on list price.</span>
+              </div>
+              <hr>
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
+                <li><a href="../php/logout.php"><i class="icon ion-power"></i> Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <!-- input-group -->
+      </div><!-- br-header-left -->
+      <!-- br-header-right -->
+    </div><!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: RIGHT PANEL ########## -->
+    <!-- br-sideright -->
+    <!-- ########## END: RIGHT PANEL ########## --->
+
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+      <div class="br-pagetitle">
+        <h4 class="title">
+          <?php
+            if ($positionID == 0) {
+              echo "Leader Board";
+            } elseif ($positionID == 0) {
+              echo "Agent Board";
+            } elseif ($positionID == 3) {
+              echo "Human Resource";
+            } else {
+            	echo "Reports Board";
+            }
+          ?>
+        </h4>
+      </div>
+      <div class="br-pagebody">
+
+        <!-- br-pagebody content -->
+        <div class="br-section-wrapper">
+          <!-- <div class="br-section-label">
+            <h6>Profile</h6>
+          </div> -->  
+          <div class="card shadow-base bd-0 mg-t-20 widget-4">
+            <div class="card-header">
+              <div class="hidden-xs-down">
+                <a href="" class="mg-r-10">
+                  <!-- <span class="tx-inverse tx-medium">498</span> Followers -->
+                </a>
+                <a href=""><!-- <span class="tx-inverse tx-medium">498</span> Following --></a>
+              </div>
+              <div class="tx-24 hidden-xss-down">
+                <a href="" class="mg-r-10"><!-- <i class="icon ion-ios-email-outline"></i> --></a>
+                <a href=""><!-- <i class="icon ion-more"></i> --></a>
+              </div>
+            </div><!-- card-header -->
+            <div class="card-body">
+              <div class="card-profile-img">
+                <img src="https://via.placeholder.com/500" alt="">
+              </div><!-- card-profile-img -->
+              <h4 class="tx-normal tx-roboto tx-inverse">
+                <?php
+                  echo $agentRow['FirstName']." ".$agentRow['MiddleName']." ".$agentRow['LastName'];
+                ?>
+              </h4>
+              <p class="mg-b-25">
+                <!-- http://www.mysqltutorial.org/mysql-foreign-key/ 
+
+                  Wine Connoisseur-->
+                <?php
+                  echo $position;
+                ?>
+              </p>
+
+              <p class="wd-md-500 mg-md-l-auto mg-md-r-auto mg-b-25">Singer, Lawyer, Achiever, Wearer of unrelated hats, Data Visualizer, Mayonaise Tester. I don't know what alt-tab does. Storyteller.</p>
+
+              <p class="mg-b-0 tx-24">
+                <a href="" class="tx-primary mg-r-5"><i class="fab fa-facebook-official"></i></a>
+                <a href="" class="tx-info mg-r-5"><i class="fab fa-twitter"></i></a>
+                <a href="" class="tx-danger mg-r-5"><i class="fab fa-pinterest"></i></a>
+                <a href="" class="tx-danger"><i class="fab fa-instagram"></i></a>
+              </p>
+            </div><!-- card-body -->
+            <!-- <div class="card-footer tx-14 d-sm-flex justify-content-sm-center">
+              <nav class="nav nav-inline flex-column flex-sm-row">
+                <a href="" class="nav-link">Home</a>
+                <a href="" class="nav-link">Profile</a>
+                <a href="" class="nav-link">Photos</a>
+                <a href="" class="nav-link">Favorites</a>
+                <a href="" class="nav-link">Settings</a>
+              </nav>
+            </div> --><!-- card-footer -->
+          </div>
+          <br>
+          <div id="reportsBoard">
+            <div class="br-section-label">
+						  <h6 class="lead font-weight-bold">Bar Chart</h6>
+						  <p class="br-section-text">Below is the generic bar chart type example.</p>
+						</div>
+						<div class="row">
+	            <div class="col-xl-6">
+	              <div class="bd pd-t-30 pd-b-20 pd-x-20"><canvas id="chartBar1" height="200"></canvas></div>
+	            </div><!-- col-6 -->
+	            <div class="col-xl-6">
+	            	<div class="bd pd-t-30 pd-b-20 pd-x-20"><canvas id="chartBar2" height="200"></canvas></div>
+	            </div><!-- col-6 -->
+	          </div>
+	          <!-- Bar Chart -->
+	          <div class="br-section-label">
+						  <h6 class="lead font-weight-bold">Horizontal Bar Chart</h6>
+						  <p class="br-section-text">Below is the horizontal bar chart type example.</p>
+						</div>
+	          <div class="row">
+            <div class="col-xl-6">
+              <div class="bd pd-t-30 pd-b-20 pd-x-20"><canvas id="chartBar3" height="200"></canvas></div>
+            </div><!-- col-6 -->
+            <div class="col-xl-6 mg-t-20 mg-xl-t-0">
+              <div class="bd pd-t-30 pd-b-20 pd-x-20"><canvas id="chartBar4" height="200"></canvas></div>
+            </div><!-- col-6 -->
+          </div><!-- row -->
+          </div>
+          <div id="leaderBoard">
+            
+          </div>
+          <div id="executiveBoard">
+            
+          </div>
+          <!-- <button id="clientMoveStage" class="btn btn-primary" disabled>Move Buying Stage</button> -->
+          <!-- #clientProjects End -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+      <footer class="br-footer justify-content-center">
+
+      </footer>
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../lib/moment/min/moment.min.js"></script>
+    <script src="../lib/peity/jquery.peity.min.js"></script>
+    <script src="../lib/highlightjs/highlight.pack.min.js"></script>
+    <!-- Data Tables -->
+    <script src="../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../js/dataTables.material.min.js"></script> -->
+    <script src="../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+    <script src="../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+    <script src="../lib/select2/js/select2.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
+    <!-- Moment JS required for charts -->
+    <script src="../lib/moment/min/moment.min.js"></script>
+    <!-- Chart JS -->
+    <script src="../lib/chart.js/Chart.min.js"></script>
+    <script src="../js/bracket.js"></script>
+    <script src="../js/chart.chartjs.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script type="text/javascript">
+    	//Load reusable html files
+      $(document).ready(function(){
+        $(".br-logo").load("include/logo.html");
+        $(".br-sideleft").load("include/sideLeftMain.html");
+        $(".br-footer").load("include/footer.html");
+      });
+    </script>
+  </body>
+</html>

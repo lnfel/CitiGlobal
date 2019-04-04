@@ -1,0 +1,95 @@
+<div class="br-section-label">
+  <h6>Clients</h6>
+</div>
+<div id="table-wrapper">
+  <table id="client" class="table display responsive nowrap">
+    <thead>
+      <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>E-mail</th>
+          <th>Contact Number</th>
+          <th>Country</th>
+          <th>Facebook</th>
+          <th>Source</th>
+          <th>Buying Purpose</th>
+          <th>Interest Level</th>
+          <th>Preferred Size</th>
+          <th>Notes</th>
+          <th>ClientID</th>
+          <th>TeamID</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>E-mail</th>
+          <th>Contact Number</th>
+          <th>Country</th>
+          <th>Facebook</th>
+          <th>Source</th>
+          <th>Buying Purpose</th>
+          <th>Interest Level</th>
+          <th>Preferred Size</th>
+          <th>Notes</th>
+          <th>ClientID</th>
+          <th>TeamID</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<button id="newProspect" class="btn btn-primary">New Prospect</button>
+<button id="details" class="btn btn-primary" disabled>Manage</button>
+<!-- #client End -->
+<div class="br-section-label">
+  <h6>Client Details</h6>
+</div>
+<div id="table-wrapper">
+  <table id="clientProjects" class="table display responsive nowrap">
+    <thead>
+      <tr>
+          <th hidden>ProjectID</th>
+          <th>Unit</th>
+          <th>Project Name</th>
+          <th>Estimated Amount</th>
+          <th>Buying Stage</th>
+          <th hidden>ClientID</th>
+          <th hidden>AccountID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td valign="top" colspan="4" class="dataTables_empty text-center">Please select a client from the table above to manage.</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+          <th hidden>ProjectID</th>
+          <th>Unit</th>
+          <th>Project Name</th>
+          <th>Estimated Amount</th>
+          <th>Buying Stage</th>
+          <th hidden>ClientID</th>
+          <th hidden>AccountID</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<br>
+<div class="row">
+  <div class="col-1">
+    <button id="" class="btn btn-primary">Add Unit</button>
+  </div>
+  <div class="col">
+    <select id="clientMoveStage" name="buyingstage" class="form-control select2 wd-200" disabled>
+      <optgroup label="Buying Stage">
+        <option selected hidden>Move Buying Stage</option>
+        <!-- <option value="Awareness">Awareness</option> -->
+        <option value="Consideration">Consideration</option>
+        <option value="Won">Decision - Won</option>
+        <option value="Lost">Decision - Lost</option>
+      </optgroup>
+    </select>
+  </div>
+</div>

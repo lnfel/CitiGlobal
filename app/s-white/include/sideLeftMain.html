@@ -1,30 +1,49 @@
+      <?php
+        session_start();
+
+        $positionID = $_SESSION['positionID'];
+        /*echo $_SESSION['positionID'];*/
+
+        if ($positionID == 1 || $positionID == 2) {
+          $agent = "";
+          $hr = "d-none";
+        } elseif ($positionID == 3) {
+          $agent = "d-none";
+          $hr = "";
+        }
+      ?>
+
       <label class="sidebar-label pd-x-10 mg-t-20 op-3">Navigation</label>
       <ul class="br-sideleft-menu">
-        <li class="br-menu-item">
-          <a href="index.html" class="br-menu-link">
-            <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
-            <span class="menu-item-label">Dashboard</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-          <a href="auth-register.html" class="br-menu-link">
-            <i class="menu-item-icon icon ion-person-add tx-24"></i>
-            <span class="menu-item-label">Register</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-          <a href="employee.html" class="br-menu-link">
-            <i class="menu-item-icon icon ion-person tx-24"></i>
-            <span class="menu-item-label">Employee</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        <li class="br-menu-item">
-          <a href="client.html" class="br-menu-link">
-            <i class="menu-item-icon icon ion-person-stalker tx-24"></i>
-            <span class="menu-item-label">Client</span>
-          </a><!-- br-menu-link -->
-        </li><!-- br-menu-item -->
-        
+        <div class="agent <?php echo $agent ?>">
+          <li class="br-menu-item">
+            <a href="agent.html" class="br-menu-link">
+              <i class="menu-item-icon icon ion-ios-home-outline tx-24"></i>
+              <span class="menu-item-label">Dashboard</span>
+            </a><!-- br-menu-link -->
+          </li><!-- br-menu-item -->
+        </div>
+        <!-- ================================================================= -->
+        <div class="hr <?php echo $hr ?>">
+          <li class="br-menu-item">
+            <a href="auth-register.html" class="br-menu-link">
+              <i class="menu-item-icon icon ion-person-add tx-24"></i>
+              <span class="menu-item-label">Register</span>
+            </a><!-- br-menu-link -->
+          </li><!-- br-menu-item -->
+          <li class="br-menu-item">
+            <a href="employee.html" class="br-menu-link">
+              <i class="menu-item-icon icon ion-person tx-24"></i>
+              <span class="menu-item-label">Employee</span>
+            </a><!-- br-menu-link -->
+          </li><!-- br-menu-item -->
+          <li class="br-menu-item">
+            <a href="client.html" class="br-menu-link">
+              <i class="menu-item-icon icon ion-person-stalker tx-24"></i>
+              <span class="menu-item-label">Client</span>
+            </a><!-- br-menu-link -->
+          </li><!-- br-menu-item -->
+        </div>
 
       <br>
 
@@ -37,5 +56,14 @@
               $(this).addClass("active");
             }
           });
+
+          /*Oh shiit*/
+          /*var title = $("h4.title").text();
+          console.log(title);
+          if (title == "Human Resource") {
+            $(".hr").removeClass("d-none");
+          } elseif (title == "Agent Board" || title == "Leader Board") {
+            $(".agent").removeClass("d-none");
+          }*/
         });
       </script>

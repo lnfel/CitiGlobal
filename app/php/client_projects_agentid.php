@@ -9,12 +9,13 @@
 
 	// indexes
 	$columns = array(
-		array( 'db' => 'Unit', 'dt' => 0 ),
-		array( 'db' => 'ProjectName', 'dt' => 1 ),
-		array( 'db' => 'EstimatedAmount',	'dt' => 2 ),
-		array( 'db' => 'BuyingStage', 'dt' => 3 ),
-		array( 'db' => 'ClientID', 'dt' => 4 ),
-		array( 'db' => 'AccountID', 'dt' => 5 )
+		array( 'db' => 'ProjectID', 'dt' => 0 ),
+		array( 'db' => 'Unit', 'dt' => 1 ),
+		array( 'db' => 'ProjectName', 'dt' => 2 ),
+		array( 'db' => 'EstimatedAmount',	'dt' => 3 ),
+		array( 'db' => 'BuyingStage', 'dt' => 4 ),
+		array( 'db' => 'ClientID', 'dt' => 5 ),
+		array( 'db' => 'AccountID', 'dt' => 6 )
 	);
 
 	// SQL server connection information
@@ -36,7 +37,7 @@
   	/*echo $clientID;*/ /*it works :)*/
   	/*echo $agentID;*/
   	/*WHERE clause*/
-  	$where = "ClientID = ".$clientID." AND AccountID = ".$agentID;
+  	$where = "ClientID = ".$clientID." AND AccountID = ".$agentID." AND (BuyingStage = 'Awareness' OR BuyingStage = 'Consideration')";
   	/*$where = "AgentID = $agentID";*/
   	/*https://github.com/DataTables/DataTablesSrc/blob/master/examples/server_side/scripts/ssp.class.php#L276*/
   	

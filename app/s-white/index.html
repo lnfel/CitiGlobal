@@ -2,6 +2,10 @@
   session_start();
   include "../php/connection.php";
   
+  /*if user is already logged in unless the user logged out*/
+  if (isset($_SESSION['ID'])) {
+    header("Location: agent.html");
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -265,13 +269,18 @@
               $_SESSION['ID'] = $oneRow['AccountID'];
               $_SESSION['USER'] = $oneRow['FirstName'];
               $_SESSION['LEVEL'] = $oneRow['AccountTypeID'];
+              $_SESSION['positionID'] = $oneRow['PositionID'];
 
               if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] == true) {
                 /*header("location: ../s-white/client.html");*/
                 /*exit();*/
-
-                echo '<script>window.location.replace("agent.html");</script>';
-                echo '<script>$("#modal").modal("show");</script>';
+                if ($_SESSION['positionID'] == 1 || $_SESSION['positionID'] == 2){
+                  echo '<script>window.location.replace("agent.html");</script>';  
+                } elseif ($_SESSION['positionID'] == 3) {
+                  echo '<script>window.location.replace("employee.html");</script>';
+                }
+                
+                /*echo '<script>$("#modal").modal("show");</script>';*/
 
                 //echo '<script>$("#modal-body h4").text("'. $_SESSION['USER'] .' ");</script>';
               } else {

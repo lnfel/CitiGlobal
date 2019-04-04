@@ -7,7 +7,7 @@ $(function(){
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Revenue this month',
         data: [12, 39, 20, 10, 25, 18],
         backgroundColor: '#27AAC8'
       }]
@@ -43,7 +43,7 @@ $(function(){
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
       datasets: [{
-        label: '# of Votes',
+        label: '# of Contacts',
         data: [12, 39, 20, 10, 25, 18],
         backgroundColor: [
           '#29B0D0',
@@ -83,9 +83,9 @@ $(function(){
   new Chart(ctb3, {
     type: 'horizontalBar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      labels: ['Walkin - Site', 'Facebook', 'Advertisement', 'Events', 'Sub-Agent', 'Personal Network'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Clients by Sources',
         data: [12, 39, 20, 10, 25, 18],
         backgroundColor: '#27AAC8'
       }]
@@ -119,9 +119,9 @@ $(function(){
   new Chart(ctb4, {
     type: 'horizontalBar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      labels: ['Jan-Jan', 'Batangas', 'Tina', 'Boy', 'JC', 'Jie'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Agent Deals (this week)',
         data: [12, 39, 20, 10, 25, 18],
         backgroundColor: [
           '#29B0D0',
