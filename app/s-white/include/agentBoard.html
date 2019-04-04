@@ -43,7 +43,7 @@
 <button id="details" class="btn btn-primary" disabled>Manage</button>
 <!-- #client End -->
 <div class="br-section-label">
-  <h6>Client Details</h6>
+  <h6 class="client-name">Client Projects</h6>
 </div>
 <div id="table-wrapper">
   <table id="clientProjects" class="table display responsive nowrap">
@@ -81,7 +81,7 @@
   <div class="col-1">
     <button id="" class="btn btn-primary">Add Unit</button>
   </div>
-  <div class="col">
+  <div class="col-9 mg-l-20">
     <select id="clientMoveStage" name="buyingstage" class="form-control select2 wd-200" disabled>
       <optgroup label="Buying Stage">
         <option selected hidden>Move Buying Stage</option>
@@ -92,4 +92,57 @@
       </optgroup>
     </select>
   </div>
+</div>
+<!-- #clientProjects End -->
+<div class="br-section-label">
+  <h6>Deals</h6>
+</div>
+<div id="table-wrapper">
+  <table id="clientDeals" class="table display responsive nowrap">
+    <thead>
+      <tr>
+          <th hidden>ProjectID</th>
+          <th>Unit</th>
+          <th>Project Name</th>
+          <th>Final Amount</th>
+          <th>Buying Stage</th>
+          <th hidden>ClientID</th>
+          <th hidden>AccountID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td valign="top" colspan="4" class="dataTables_empty text-center">Please select a client from the table above to manage.</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+          <th hidden>ProjectID</th>
+          <th>Unit</th>
+          <th>Project Name</th>
+          <th>Final Amount</th>
+          <th>Buying Stage</th>
+          <th hidden>ClientID</th>
+          <th hidden>AccountID</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <button id="" class="btn btn-primary">Deals this week</button>
+    <button id="" class="btn btn-primary">Montly Deals</button>
+  </div>
+  <!-- <div class="col">
+    <select id="" name="buyingstage" class="form-control select2 wd-200" disabled>
+      <optgroup label="Buying Stage">
+        <option selected hidden>Move Buying Stage</option>
+        <option value="Awareness">Awareness</option>
+        <option value="Consideration">Consideration</option>
+        <option value="Won">Decision - Won</option>
+        <option value="Lost">Decision - Lost</option>
+      </optgroup>
+    </select>
+  </div> -->
 </div>

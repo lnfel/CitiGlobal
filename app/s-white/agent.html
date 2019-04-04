@@ -14,6 +14,7 @@
   $agentRow = $agentResult->fetch_assoc();
 
   $agentTeamID = $agentRow['TeamID'];
+  $_SESSION['teamID'] = $agentTeamID;
   $positionID = $agentRow['PositionID'];
   $_SESSION['positionID'] = $positionID;
   /*Get position string value*/
@@ -397,6 +398,7 @@
                   Wine Connoisseur-->
                 <?php
                   echo $position;
+                  echo "<span class='team-id d-none'>".$agentTeamID."</span>";
                 ?>
               </p>
 
@@ -598,7 +600,7 @@
           /*$('#clientDetails').modal('show');*/
 
           /*Transfer data*/
-          $('.client-name').text(dataArr[0] + " " + dataArr[1]);
+          /*$('.client-name').text(dataArr[0] + " " + dataArr[1]);*/
 
           /*$('#clientProjects').DataTable().destroy();
           $('#clientProjects tbody').empty();*/
@@ -639,6 +641,9 @@
               });
             }
           });*/
+
+          /*Transfer data*/
+          $('.client-name').text(dataArr[0] + " " + dataArr[1]);
 
           var clientProjectsAgent = $('#clientProjects').DataTable({
             "processing": true,
@@ -701,6 +706,9 @@
                 $('#clientMoveStage').removeAttr('disabled');
             }
           }); /*selected end*/
+
+          // Select2
+          $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
         });/*#details.click end*/
 
         $('#clientMoveStage').on('change', function() {
@@ -727,6 +735,7 @@
             .done(function(){
               /*Refresh table with updated data*/
               $("#clientProjects").DataTable().ajax.reload();
+              $("#clientDeals").DataTable().ajax.reload();
             });/*Client Insert AJAX End*/
         });
 
@@ -750,6 +759,56 @@
           }
         });*/
 
+        var clientDealsAgent = $('#clientDeals').DataTable({
+          "processing": true,
+          /*"serverSide": true,*/
+          destroy: true,
+          select: true,
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/client_deals_agentid.php",
+            "type": "POST"
+          },
+          "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 5 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 6 ],
+                "visible": false,
+                "searchable": false
+            }
+          ]
+        }); /*DataTable End*/
+
+        $('#clientDeals').on( 'click', 'tbody tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+              /*$('#clientMoveStage').attr('disabled','disabled');*/
+          }
+          else {
+              clientDealsAgent.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+              /*$('#clientMoveStage').removeAttr('disabled');*/
+          }
+        }); /*selected end*/
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+        var teamID = $('.team-id').text();
         var teamClient = $('#teamClient').DataTable({
           "processing": true,
           "serverSide": true,
@@ -761,7 +820,11 @@
             lengthMenu: '_MENU_ items/page',
           },
           "ajax": {
-            "url": "../php/client_agentid.php"
+            "url": "../php/client_teamid.php",
+            "type": "POST",
+              "data": {
+                "teamID": teamID
+              }
           },
           "columnDefs": [
             {
@@ -776,6 +839,9 @@
             }
           ]
         });
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
 
         /*Client Insert AJAX*/
         $("#newClient").click(function(event){

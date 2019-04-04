@@ -21,11 +21,11 @@ table {
   width: 100% !important;
 }
 
-#client th:nth-child(odd), #clientProjects th:nth-child(odd) {
+#client th:nth-child(odd), #clientProjects th:nth-child(odd), #clientDeals th:nth-child(odd), #teamClient th:nth-child(odd) {
   background: #da5f5f8a;/*#5f9cda*/
 }
 
-#client th:nth-child(even), #clientProjects th:nth-child(even) {
+#client th:nth-child(even), #clientProjects th:nth-child(even), #clientDeals th:nth-child(even), #teamClient th:nth-child(even) {
   background: #de5763b5;
 }
 

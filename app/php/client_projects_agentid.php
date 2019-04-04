@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include "connection.php";
+	
 	// DB table to use
 	$table = 'project';
 
