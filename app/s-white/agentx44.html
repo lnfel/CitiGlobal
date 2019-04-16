@@ -1,0 +1,940 @@
+<?php
+  session_start();
+  include "../php/connection.php";
+
+  /*if the session id is not yet set (means user is not yet logged in)*/
+  if (!isset($_SESSION['ID'])) {
+    header("Location: index.html");
+  }
+
+  /*echo $_SESSION['ID'];*/
+  $agentID = $_SESSION['ID'];
+  $agentSelect = "SELECT * FROM account WHERE AccountID = $agentID";
+  $agentResult = $conn->query($agentSelect);
+  $agentRow = $agentResult->fetch_assoc();
+
+  $agentTeamID = $agentRow['TeamID'];
+  $_SESSION['teamID'] = $agentTeamID;
+  $positionID = $agentRow['PositionID'];
+  $_SESSION['positionID'] = $positionID;
+  /*Get position string value*/
+  $positionSelect = "SELECT * FROM employee_position WHERE POSITION_ID = $positionID";
+  $positionResult = $conn->query($positionSelect) or die($conn->error);
+  $positionRow = $positionResult->fetch_assoc();
+
+  $position = $positionRow['POSITION_FULL'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket Plus">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+
+    <!-- Facebook -->
+    <!-- <meta property="og:url" content="http://themepixels.me/bracketplus">
+    <meta property="og:title" content="Bracket Plus">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracketplus/img/bracketplus-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600"> -->
+
+    <meta property="og:image:height" content="52">
+    <meta property="og:image:width" content="99">
+    <meta property="og:title" content="Maaasahan. Mapagkakatiwalaan | CitiGlobal">
+    <meta property="og:description" content="Property Investment | Best Real Estate Developer in the Philippines - CitiGlobal Realty &amp;amp; Development, Inc.">
+    <meta property="og:image" content="https://citiglobal.com.ph/img/facebook/meta/og-image.jpg">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="Mango System">
+
+    <title>CitiGlobal</title>
+
+    <!-- vendor css -->
+    <link href="../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../lib/highlightjs/styles/github.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
+    <!-- <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet"> -->
+
+    <!-- Data Table -->
+    <link rel="stylesheet" href="../lib/datatables.net-dt/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="../css/bracket.simple-white.css">
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/icons/favicon-16x16.png">
+    <link rel="manifest" href="../img/icons/site.webmanifest">
+    <link rel="shortcut icon" href="../img/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="CitiGlobal">
+    <meta name="application-name" content="CitiGlobal">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="../img/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="../img/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body>
+    <!-- Alert -->
+    <div class="alert-box pos-fixed t-15 r-15">
+      
+    </div>
+    <!-- Modal -->
+    <div id="regProspect" class="modal fade">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+          <div class="modal-body pd-0">
+            <div class="row no-gutters">
+              <div class="col-lg-12 bg-white">
+                <div class="pd-30">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  <div class="pd-x-30 pd-y-10">
+                    <h3 class="tx-inverse  mg-b-5">Client Form</h3>
+                    <p>Add new prospect to board.</p>
+                    <br>
+                    <form id="newClientForm" action="" method="" novalidate>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="firstname" class="form-control pd-y-12" placeholder="First Name">
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="lastname" class="form-control pd-y-12" placeholder="Last Name">
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="email" name="email" class="form-control pd-y-12" placeholder="E-mail">
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="contactnumber" class="form-control pd-y-12" placeholder="Contact Number">
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <select name="country" class="form-control country select2" style="width:100%">
+                            
+                          </select>
+                          <!-- <optgroup label="Country">
+                              <option value="AM">America</option>
+                              <option value="PH" selected>Philippines</option>
+                            </optgroup> -->
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="facebook" class="form-control pd-y-12" placeholder="Facebook">
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <select name="source" class="form-control select2">
+                            <optgroup label="Source">
+                              <option disabled selected hidden>Source</option>
+                              <option value="Company Lead">Company Lead</option>
+                              <option value="Direct Call / Text">Direct Call / Text</option>
+                              <option value="Event">Event</option>
+                              <option value="Client Referral">Client Referral</option>
+                              <option value="Sub-Agent Referral">Sub-Agent Referral</option>
+                              <option value="Personal Network">Personal Network</option>
+                              <option value="Walk-in - Site">Walk-in - Site</option>
+                              <option value="Walk-in - Showroom">Walk-in - Showroom</option>
+                              <option value="Walk-in - Office">Walk-in - Office</option>
+                              <option value="Facebook">Facebook</option>
+                              <option value="IG / Twitter">IG / Twitter</option>
+                              <option value="Online Property Portal">Online Property Portal</option>
+                              <option value="Buy & Sell Ads">Buy & Sell Ads</option>
+                              <option value="Others">Others</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="buyingpurpose" class="form-control pd-y-12" placeholder="Buying Purpose">
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <select name="interestlevel" class="form-control select2">
+                            <optgroup label="Interest Level">
+                              <option disabled selected hidden>Interest Level</option>
+                              <option value="1">Low</option>
+                              <option value="2">Neutral</option>
+                              <option value="3">High</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <input type="text" name="preferredsize" class="form-control pd-y-12" placeholder="Preferred Size">
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <select name="project" class="form-control select2">
+                            <optgroup label="Project">
+                              <option disabled selected hidden="">Project</option>
+                              <option value="DBR-SR">DBR-SR</option>
+                              <option value="TCRS">TCRS</option>
+                              <option value="TFV">TFV</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                        <div class="col-sm-12 col-md-6 mg-b-20">
+                          <div class="form-group mg-b-30">
+                            <!-- blank -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row mg-b-0-force">
+                        <div class="col-sm-12 mg-b-20">
+                          <label for="note">Note:</label>
+                          <textarea id="note" class="form-control" name="note"></textarea>
+                        </div>
+                      </div>
+                      <!-- <button class="btn btn-primary pd-y-12 btn-block">Submit</button> -->
+                      <!-- <input type="submit" name="submit" class="btn btn-primary pd-y-12 btn-block" value="Submit"> -->
+                      <button id="newClient" class="btn btn-primary pd-y-12 btn-block"><a class="text-light" href="">Submit</a></button>
+                    </form>
+                  </div>
+                </div><!-- pd-30 -->
+              </div><!-- col-12 -->
+            </div><!-- row -->
+
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div>
+    <!-- regProspect End  -->
+    <div id="clientDetails" class="modal fade">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bd-0 bg-transparent rounded overflow-hidden">
+          <div class="modal-body pd-0">
+            <div class="row no-gutters">
+              <div class="col-lg-12 bg-white">
+                <div class="pd-30">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  <div class="pd-x-30 pd-y-10">
+                    <h3 class="tx-inverse  mg-b-5">Client Details</h3>
+                    <p>Manage client here.</p>
+                    <br>
+                  </div>
+                  <div class="card shadow-base widget-6">
+                  <div class="card-header">
+                    <div class="media align-items-center">
+                      <img src="https://via.placeholder.com/500" class="wd-70 rounded-circle d-flex mg-r-10 mg-xs-r-15 align-self-start" alt="">
+                      <div class="media-body">
+                        <span class="client-name d-block tx-medium tx-inverse">Name here</span>
+                        <span class="tx-12">&nbsp;</span>
+                      </div>
+                    </div>
+                    <span class="tx-12">
+                      <a class="tx-gray mg-r-10" href="#">Sample Link</a>
+                      <a class="tx-gray" href="#">
+                        <i class="fa fa-angle-down tx-14"></i>
+                      </a>
+                    </span>
+                  </div>
+
+                  <div class="card-body pd-25">
+                    <div id="table-wrapper">
+                      <table id="" class="table display responsive nowrap">
+                        <thead>
+                          <tr>
+                              <th>Unit</th>
+                              <th>Project Name</th>
+                              <th>Estimated Amount</th>
+                              <th>Buying Stage</th>
+                              <th>ClientID</th>
+                              <th>AccountID</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                    <!-- <button id="" class="btn btn-primary">Add Unit</button>
+                    <button id="clientMoveStage" class="btn btn-primary" disabled>Move Buying Stage</button> -->
+                  </div>
+                  </div>
+                </div><!-- card shadow-base pd-30 -->
+              </div><!-- col-lg-12 -->
+            </div><!-- row no-gutters -->
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div>
+    <!-- clientDetails End -->
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+
+    </div>
+    <div class="br-sideleft sideleft-scrollbar">
+      
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+        <div class="br-logo-mobile"><a href=""><img src="../img/citiglobal-logo.png" width="200px"></a></div>
+      </div>
+      <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a class="nav-link nav-link-profile" href="" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down">
+                <?php
+                  echo $agentRow['FirstName'];
+                ?>
+              </span>
+              <img src="https://via.placeholder.com/500" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-250" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-65px, 48px, 0px);">
+              <div class="tx-center">
+                <a href=""><img src="https://via.placeholder.com/500" class="wd-80 rounded-circle" alt=""></a>
+                <h6 class="logged-fullname">
+                  <?php
+                    /*echo $agentFirstName." ".$agentLastName;*/
+                    echo $agentRow['FirstName']." ".$agentRow['LastName'];
+                  ?>
+                </h6>
+                <p>batman.en.robin@citiglobal.com</p>
+              </div>
+              <hr>
+              <div class="tx-center">
+                <span class="profile-earning-label">Earnings After Taxes</span>
+                <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
+                <span class="profile-earning-text">Based on list price.</span>
+              </div>
+              <hr>
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
+                <li><a href="../php/logout.php"><i class="icon ion-power"></i> Sign Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <!-- input-group -->
+      </div><!-- br-header-left -->
+      <!-- br-header-right -->
+    </div><!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: RIGHT PANEL ########## -->
+    <!-- br-sideright -->
+    <!-- ########## END: RIGHT PANEL ########## --->
+
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+      <div class="br-pagetitle">
+        <h4 class="title">
+          <?php
+            if ($positionID == 1) {
+              echo "Leader Board";
+            } elseif ($positionID == 2) {
+              echo "Agent Board";
+            } elseif ($positionID == 3) {
+              echo "Human Resource";
+            }
+          ?>
+        </h4>
+      </div>
+      <div class="br-pagebody">
+
+        <!-- br-pagebody content -->
+        <div class="br-section-wrapper">
+          <!-- <div class="br-section-label">
+            <h6>Profile</h6>
+          </div> -->  
+          <div class="card shadow-base bd-0 mg-t-20 widget-4">
+            <div class="card-header">
+              <div class="hidden-xs-down">
+                <a href="" class="mg-r-10">
+                  <!-- <span class="tx-inverse tx-medium">498</span> Followers -->
+                </a>
+                <a href=""><!-- <span class="tx-inverse tx-medium">498</span> Following --></a>
+              </div>
+              <div class="tx-24 hidden-xss-down">
+                <a href="" class="mg-r-10"><!-- <i class="icon ion-ios-email-outline"></i> --></a>
+                <a href=""><!-- <i class="icon ion-more"></i> --></a>
+              </div>
+            </div><!-- card-header -->
+            <div class="card-body">
+              <div class="card-profile-img">
+                <img src="https://via.placeholder.com/500" alt="">
+              </div><!-- card-profile-img -->
+              <h4 class="tx-normal tx-roboto tx-inverse">
+                <?php
+                  echo $agentRow['FirstName']." ".$agentRow['MiddleName']." ".$agentRow['LastName'];
+                ?>
+              </h4>
+              <p class="mg-b-25">
+                <!-- http://www.mysqltutorial.org/mysql-foreign-key/ 
+
+                  Wine Connoisseur-->
+                <?php
+                  echo $position;
+                  echo "<span class='team-id d-none'>".$agentTeamID."</span>";
+                ?>
+              </p>
+
+              <p class="wd-md-500 mg-md-l-auto mg-md-r-auto mg-b-25">Singer, Lawyer, Achiever, Wearer of unrelated hats, Data Visualizer, Mayonaise Tester. I don't know what alt-tab does. Storyteller.</p>
+
+              <p class="mg-b-0 tx-24">
+                <a href="" class="tx-primary mg-r-5"><i class="fab fa-facebook-official"></i></a>
+                <a href="" class="tx-info mg-r-5"><i class="fab fa-twitter"></i></a>
+                <a href="" class="tx-danger mg-r-5"><i class="fab fa-pinterest"></i></a>
+                <a href="" class="tx-danger"><i class="fab fa-instagram"></i></a>
+              </p>
+            </div><!-- card-body -->
+            <!-- <div class="card-footer tx-14 d-sm-flex justify-content-sm-center">
+              <nav class="nav nav-inline flex-column flex-sm-row">
+                <a href="" class="nav-link">Home</a>
+                <a href="" class="nav-link">Profile</a>
+                <a href="" class="nav-link">Photos</a>
+                <a href="" class="nav-link">Favorites</a>
+                <a href="" class="nav-link">Settings</a>
+              </nav>
+            </div> --><!-- card-footer -->
+          </div>
+          <br>
+          <div id="agentBoard">
+            <?php
+              if ($positionID == 2) {
+                include "include/agentBoardx.html";
+              } elseif ($positionID == 1) {
+                include "include/leaderBoard.html";
+              }
+            ?>
+          </div>
+          <div id="leaderBoard">
+            
+          </div>
+          <div id="executiveBoard">
+            
+          </div>
+          <!-- <button id="clientMoveStage" class="btn btn-primary" disabled>Move Buying Stage</button> -->
+          <!-- #clientProjects End -->
+        </div><!-- br-section-wrapper -->
+      </div><!-- br-pagebody -->
+      <footer class="br-footer justify-content-center">
+
+      </footer>
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../lib/moment/min/moment.min.js"></script>
+    <script src="../lib/peity/jquery.peity.min.js"></script>
+    <script src="../lib/highlightjs/highlight.pack.min.js"></script>
+    <!-- Data Tables -->
+    <script src="../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../js/dataTables.material.min.js"></script> -->
+    <script src="../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+    <script src="../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+    <script src="../lib/select2/js/select2.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
+
+    <script src="../js/bracket.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script type="text/javascript">
+      //Load reusable html files
+      $(document).ready(function(){
+        $(".br-logo").load("include/logo.html");
+        $(".br-sideleft").load("include/sideLeftMain.html");
+        $(".br-footer").load("include/footer.html");
+
+        /*Initialize Data table*/
+        var agentClients = $('#client').DataTable({
+          "processing": true,
+          "serverSide": true,
+           select: true,
+           responsive: true,
+           language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/client_agentid.php"
+          },
+          "columnDefs": [
+            {
+                "targets": [ 11 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 12 ],
+                "visible": false,
+                "searchable": false
+            }
+          ]
+        });
+
+        /*Style data table row when selected*/
+        $('#client tbody').on( 'click', 'tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+              $('#details').attr('disabled','disabled');
+          }
+          else {
+              agentClients.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+              $('#details').removeAttr('disabled');
+          }
+        });
+
+        $('#buttonDelete').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+        /*$('.country').select2({
+          placeholder: 'Select Country'
+        });*/
+        
+        $.getJSON("include/json/countries.json", function(json){
+            $('.country').empty();
+            /*$('.country').append($('<option>').text("Select Country"));*/
+            $('.country').append($('<optgroup label="Countries">'));
+            $('.country optgroup').append($('<option disabled selected hidden>').text("Select Country"));
+            $.each(json, function(i, obj){
+                    $('.country optgroup').append($('<option>').text(obj.text).attr('value', obj.val));
+            });
+        });
+
+        /*https://stackoverflow.com/questions/20926707/how-to-use-select2-with-json-via-ajax-request*/
+
+        /*Show Modals*/
+        $('#newProspect').click(function() {
+          $('#regProspect').modal('show');
+        });
+
+        $('#details').click(function() {
+          /*$('#clientDetails').modal('show');*/
+          var ids = agentClients.rows('.selected').data();
+          /*Get hidden field value*/
+          var clientID = agentClients.row('.selected').data()[11];
+          var teamID = agentClients.row('.selected').data()[12];
+          
+          var dataArr = [];
+          $.each($('#client tr.selected'), function(){
+            dataArr.push($(this).find('td').eq(0).text());
+            dataArr.push($(this).find('td').eq(1).text());
+            dataArr.push($(this).find('td').eq(2).text());
+            dataArr.push($(this).find('td').eq(3).text());
+            dataArr.push($(this).find('td').eq(4).text());
+            dataArr.push($(this).find('td').eq(5).text());
+            dataArr.push($(this).find('td').eq(6).text());
+            dataArr.push($(this).find('td').eq(7).text());
+            dataArr.push($(this).find('td').eq(8).text());
+            dataArr.push($(this).find('td').eq(9).text());
+            dataArr.push($(this).find('td').eq(10).text());
+          });
+
+          console.log(ids);
+          console.log(dataArr);
+          console.log("ClientID: " + clientID);
+          console.log("TeamID: " + teamID);
+          console.log("Lastname " + dataArr[1]);
+
+          /*$.ajax({
+            type: "POST",
+            url: "../php/client_projects_agentid.php",
+            data: clientID
+          });*/
+
+          /*$.post('../php/client_projects_agentid.php', {clientID});*/
+
+          /*$('#clientDetails').modal('show');*/
+
+          /*Transfer data*/
+          /*$('.client-name').text(dataArr[0] + " " + dataArr[1]);*/
+
+          /*$('#clientProjects').DataTable().destroy();
+          $('#clientProjects tbody').empty();*/
+
+          /*var clientProjectsAgent = $('#clientProjects').DataTable({
+            initComplete: function() {
+              this.api().columns([1, 3]).every(function() {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                  .appendTo($(column.footer()).empty())
+                  .on('change', function() {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                      $(this).val()
+                    );
+
+                    column
+                      .search(val ? '^' + val + '$' : '', true, false)
+                      .draw();
+                  });
+
+                column.data().unique().sort().each(function(d, j) {
+                  select.append('<option value="' + d + '">' + d + '</option>');
+                });
+              });
+
+              this.api().columns([2, 4]).every(function() {
+                var that = this;
+                var input = $('<input type="text" placeholder="Search" />')
+                  .appendTo($(this.footer()).empty())
+
+                  .on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                      that
+                        .search(this.value)
+                        .draw();
+                    }
+                  });
+              });
+            }
+          });*/
+
+          /*Transfer data*/
+          $('.client-name').text(dataArr[0] + " " + dataArr[1]);
+
+          var clientProjectsAgent = $('#clientProjects').DataTable({
+            "processing": true,
+            /*"serverSide": true,*/
+            destroy: true,
+            select: true,
+            responsive: true,
+            language: {
+              searchPlaceholder: 'Search...',
+              sSearch: '',
+              lengthMenu: '_MENU_ items/page',
+            },
+            "ajax": {
+              "url": "../php/client_projects_agentid.php",
+              "type": "POST",
+              "data": {
+                "clientID": clientID
+              }
+            },
+            "columnDefs": [
+              {
+                  "targets": [ 0 ],
+                  "visible": false,
+                  "searchable": false
+              },
+              {
+                  "targets": [ 5 ],
+                  "visible": false,
+                  "searchable": false
+              },
+              {
+                  "targets": [ 6 ],
+                  "visible": false,
+                  "searchable": false
+              }
+            ]/*,
+            "drawCallback": function( settings ) {
+              $('#clientProjects tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                    $('#clientMoveStage').attr('disabled','disabled');
+                }
+                else {
+                    clientProjectsAgent.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#clientMoveStage').removeAttr('disabled');
+                }
+              });
+            }*/
+          }); /*DataTable End*/
+
+          $('#clientProjects').on( 'click', 'tbody tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                $('#clientMoveStage').attr('disabled','disabled');
+            }
+            else {
+                clientProjectsAgent.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                $('#clientMoveStage').removeAttr('disabled');
+            }
+          }); /*selected end*/
+
+          // Select2
+          $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+        });/*#details.click end*/
+
+        $('#clientMoveStage').on('change', function() {
+          var buyingStage = this.value;
+          var clientID = agentClients.row('.selected').data()[11];
+          var teamID = agentClients.row('.selected').data()[12];
+          var selectedProject = $("#clientProjects").DataTable().rows('.selected').data();
+          var projectID = $("#clientProjects").DataTable().row('.selected').data()[0];
+          console.log(buyingStage);
+          console.log(selectedProject);
+          console.log(projectID);
+
+          $.ajax({
+            method: "POST",
+            url: "../php/client_move_buyingstage.php",
+            data: {
+              "buyingStage": buyingStage,
+              "projectID": projectID/*,
+              "clientID": clientID,
+              "teamID": teamID*/
+            },
+            dataType: "html"
+          })
+            .done(function(){
+              /*Refresh table with updated data*/
+              $("#clientProjects").DataTable().ajax.reload();
+              $("#clientDeals").DataTable().ajax.reload();
+            });/*Client Insert AJAX End*/
+        });
+
+        /*clientProjectsAgent.select();*/
+        
+        /*$("#clientProjects :search").on ('change', function(){
+          clientProjectsAgent.column(3)
+          .search($(this).val())
+          .draw();
+        });*/
+
+        /*$('#clientProjects tbody').on( 'click', 'tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+              $('#clientMoveStage').attr('disabled','disabled');
+          }
+          else {
+              clientProjectsAgent.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+              $('#clientMoveStage').removeAttr('disabled');
+          }
+        });*/
+
+        var clientDealsAgent = $('#clientDeals').DataTable({
+          "processing": true,
+          /*"serverSide": true,*/
+          destroy: true,
+          select: true,
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/client_deals_agentid.php",
+            "type": "POST"
+          },
+          "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 5 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 6 ],
+                "visible": false,
+                "searchable": false
+            }
+          ]
+        }); /*DataTable End*/
+
+        $('#clientDeals').on( 'click', 'tbody tr', function () {
+          if ( $(this).hasClass('selected') ) {
+              $(this).removeClass('selected');
+              /*$('#clientMoveStage').attr('disabled','disabled');*/
+          }
+          else {
+              clientDealsAgent.$('tr.selected').removeClass('selected');
+              $(this).addClass('selected');
+              /*$('#clientMoveStage').removeAttr('disabled');*/
+          }
+        }); /*selected end*/
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+        var teamID = $('.team-id').text();
+        var teamClient = $('#teamClient').DataTable({
+          "processing": true,
+          "serverSide": true,
+           select: true,
+           responsive: true,
+           language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          },
+          "ajax": {
+            "url": "../php/client_teamid.php",
+            "type": "POST",
+              "data": {
+                "teamID": teamID
+              }
+          },
+          "columnDefs": [
+            {
+                "targets": [ 11 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [ 12 ],
+                "visible": false,
+                "searchable": false
+            }
+          ]
+        });
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+        /*Client Insert AJAX*/
+        $("#newClient").click(function(event){
+          event.preventDefault();
+          var data = $("#newClientForm").serialize();
+
+          /*if you want some more data*/
+          /*data: $('#myForm').serialize() + "&moredata=" + morevalue*/
+          console.log(data);
+
+          $.ajax({
+            method: "POST",
+            url: "../php/new_client.php",
+            data: data,
+            dataType: "html"
+          })
+            .done(function(msg){
+              /*Append the custom alert html to alert box*/
+              $(".alert-box").append('<div id="addClientSuccess" class="alert alert-success alert-solid pd-20" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><div class="d-sm-flex align-items-center justify-content-start"><i class="icon ion-ios-checkmark-outline lh-0 tx-52"></i><div class="mg-sm-l-15 mg-t-15 mg-sm-t-0"><h5 class="mg-b-2 pd-t-2">Client Added!</h5><p class="mg-b-0 tx-xs op-8">Prospect added to list.</p></div></div><!-- d-flex --></div>');
+
+              /*Call hide function to set css to display: none;*/
+              $("#addClientSuccess").hide();
+              /*fadeTo then clears display: none and shows the element by animating opacity then follows up with slideUp after 500ms*/
+              $("#addClientSuccess").fadeTo(2000, 500).slideUp(500, function(){
+                $("#addClientSuccess").slideUp(500);
+                /*.alert('close') removes the appended alert html from the DOM*/
+                $('.alert').alert('close');
+              });
+
+              /*Clear form input fields*/
+              $('#newClientForm :input, #newClientForm textarea').val('');
+            });/*Client Insert AJAX End*/
+        });/*#newClient click end*/
+      });/*End of document.ready*/
+    </script>
+    <?php
+      /*$_POST['ok'] is only a dummy, it does not exist (for testing puposes only)*/
+      /*if (isset($_POST['ok'])) {
+        include "../php/connection.php";*/
+
+        /*Get input values*/
+        /*$firstname = $conn->real_escape_string($_POST["firstname"]);
+        $lastname = $conn->real_escape_string($_POST["lastname"]);
+        $email = $conn->real_escape_string($_POST["email"]);
+        $contactnumber = $conn->real_escape_string($_POST["contactnumber"]);
+        $country = $conn->real_escape_string($_POST["country"]);
+        $facebook = $conn->real_escape_string($_POST["facebook"]);
+        $source = $conn->real_escape_string($_POST["source"]);
+        $buyingpurpose = $conn->real_escape_string($_POST["buyingpurpose"]);
+        $interestlevel = $conn->real_escape_string($_POST["interestlevel"]);
+        $preferredsize = $conn->real_escape_string($_POST["preferredsize"]);
+        $note = $conn->real_escape_string($_POST["note"]);*/
+
+        /*Define SQL Statement*/
+        /*$clientInsert = "INSERT INTO client (
+                          TeamID
+                          ,FirstName
+                          ,LastName
+                          ,Email
+                          ,ContactNumber
+                          ,Country
+                          ,Facebook
+                          ,AccountID
+                          ,Source
+                          ,BuyingPurpose
+                          ,InterestLevel
+                          ,StartDate
+                          ,PreferredSize
+                          ,Notes
+                        ) VALUES (
+                          '$agentTeamID'
+                          ,'$firstname'
+                          ,'$lastname'
+                          ,'$email'
+                          ,'$contactnumber'
+                          ,'$country'
+                          ,'$facebook'
+                          ,'$agentID'
+                          ,'$source'
+                          ,'$buyingpurpose'
+                          ,'$interestlevel'
+                          ,now()
+                          ,'$preferredsize'
+                          ,'$note'
+                        )";*/
+
+        /*Execute Query*/
+        /*if ($conn->query($clientInsert)) {
+
+        } else {
+
+        }*/
+      /*}*/ /*End of isset*/
+    ?>
+  </body>
+</html>

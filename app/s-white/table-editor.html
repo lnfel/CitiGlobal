@@ -23,13 +23,6 @@
   $positionRow = $positionResult->fetch_assoc();
 
   $position = $positionRow['POSITION_FULL'];
-
-  /*get last clientID*/
-  $lastClientSelect = "SELECT * FROM client2 ORDER BY ClientID DESC";
-  $lastClientResult = $conn->query($lastClientSelect) or die($conn->error);
-  $lastClientRow = $lastClientResult->fetch_assoc();
-
-  $lastClient = $lastClientRow['ClientID'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +56,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/editor.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="../resources/syntax/shCore.css">
-	<!-- <link rel="stylesheet" type="text/css" href="../css/demo.css"> -->
+	<link rel="stylesheet" type="text/css" href="../css/demo.css">
 
 	<!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
@@ -86,46 +79,6 @@
 
 </head>
 <body>
-  <!-- custom form template -->
-  <div id="regProspect">
-    <fieldset class="name">
-      <legend>Name</legend>
-      <div class="form-row mg-b-0-force">
-        <div class="col-sm-12 col-md-6 mg-b-20"><!-- 
-          <input type="text" data-editor-template="client2.FirstName" class="form-control pd-y-12" placeholder="First Name"> -->
-          <editor-field name="client2.FirstName"></editor-field>
-        </div>
-        <div class="col-sm-12 col-md-6 mg-b-20">
-          <editor-field name="client2.LastName"></editor-field>
-        </div>
-      </div>
-      <div class="form-row mg-b-0-force">
-        <div class="col-sm-12 col-md-6 mg-b-20">
-          <editor-field name="client2.ContactNumber"></editor-field>
-        </div>
-        <div class="col-sm-12 col-md-6 mg-b-20">
-            <editor-field name="client2.Country"></editor-field>  
-        </div>
-      </div>
-      <div class="form-row mg-b-0-force">
-        <div class="col-sm-12 col-md-6 mg-b-20">
-          <editor-field name="client2.Unit"></editor-field>  
-        </div>
-        <div class="col-sm-12 col-md-6 mg-b-20">
-            <editor-field name="client2.ProjectName"></editor-field>  
-        </div>
-      </div>
-      <div class="form-row mg-b-0-force">
-        <div class="col-sm-12 col-md-6 mg-b-20">
-          <editor-field name="client2.BuyingStage"></editor-field>  
-        </div>
-        <div class="col-sm-12 col-md-6 mg-b-20">
-            <!-- <editor-field name="client2.ClientID"></editor-field> -->
-        </div>
-      </div>
-
-    </fieldset>
-  </div>
 	<!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo">
 
@@ -243,9 +196,7 @@
                   Wine Connoisseur-->
                 <?php
                   echo $position;
-                  echo "<input id='team-id' type='hidden' value=".$agentTeamID.">";
-                  echo "<input id='agent-id' type='hidden' value=".$agentID.">";
-                  echo "<input id='last-client' type='hidden' value=".$lastClient.">";
+                  echo "<span class='team-id d-none'>".$agentTeamID."</span>";
                 ?>
               </p>
 
@@ -271,13 +222,40 @@
           <br>
           <div id="agentBoard">
             <?php
-              if ($positionID == 2) {
-                include "include/agentBoard.html";
-              } elseif ($positionID == 1) {
-                include "include/leaderBoard.html";
-              }
+              //if ($positionID == 2) {
+              //  include "include/agentBoard.html";
+              //} elseif ($positionID == 1) {
+              //  include "include/leaderBoard.html";
+              //}
             ?>
-            
+            <table id="client" class="display nowrap" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Contact Number</th>
+						<th>Country</th>
+						<th>Unit</th>
+						<th>Project Name</th>
+						<th>Buying Stage</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Country</th>
+						<th></th>
+						<th>Project Name</th>
+						<th>Buying Stage</th>
+					</tr>
+				</tfoot>
+			</table>
           </div>
           <div id="leaderBoard">
             
@@ -295,19 +273,11 @@
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
-	<!-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
-  <script src="../lib/jquery/jquery.min.js"></script>
-
-  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/bracket.js"></script>
-  <script src="../lib/select2/js/select2.min.js"></script>
-  <script src="../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-  <script src="../lib/moment/min/moment.min.js"></script>
-
-	<script type="text/javascript" language="javascript" src="../lib/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" language="javascript" src="../lib/datatables.net/js/dataTables.responsive.min.js"></script>
-	<script type="text/javascript" language="javascript" src="../lib/datatables.net/js/dataTables.buttons.min.js"></script>
-	<script type="text/javascript" language="javascript" src="../lib/datatables.net/js/dataTables.select.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/dataTables.editor.min.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/shCore.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/demo.js"></script>
@@ -323,95 +293,36 @@ $(document).ready(function() {
     $(".br-sideleft").load("include/sideLeftMain.html");
     $(".br-footer").load("include/footer.html");
 
-  var agentID = $("#agent-id").val();
-  var teamID = $("#team-id").val();
-  var lastClient = +$("#last-client").val() + 1;
-  //var lastClient = parseInt(lastClient + 1);
-
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "../php/controllers/client.php",
 		table: "#client",
-    template: "#regProspect",
 		fields: [ {
+				label: "First Name:",
 				name: "client2.FirstName"
 			}, {
+				label: "Last Name:",
 				name: "client2.LastName"
 			}, {
+				label: "Contact Number:",
 				name: "client2.ContactNumber"
 			}, {
+				label: "Country:",
 				name: "client2.Country",
-				type: "select",
-        placeholder: "Select Country",
-        //placeholderDisabled: false,
-        placeholderValue: 169
+				type: "select"
 			}, {
+				label: "Unit:",
 				name: "client2.Unit"
 			}, {
+				label: "Project Name:",
 				name: "client2.ProjectName",
-				type: "select",
-        placeholder: "Select Project"
+				type: "select"
 			}, {
+				label: "Buying Stage:",
 				name: "client2.BuyingStage",
-				type: "select",
-        placeholder: "Awareness",
-        //placeholderDisabled: false,
-        placeholderValue: 1
-			}, {
-        name: "client2.AccountID",
-        type: "select",
-        placeholder: "Agent",
-        //placeholderDisabled: false,
-        placeholderValue: agentID
-      }, {
-        name: "client2.ClientID",
-        type: "select",
-        placeholder: "Client",
-        //placeholderDisabled: false,
-        placeholderValue: lastClient
-      }, {
-        name: "client2.TeamID",
-        type: "select",
-        placeholder: "Team",
-        //placeholderDisabled: false,
-        placeholderValue: teamID
-      }
+				type: "select"
+			}
 		]
 	} );
-
-  editor.field('client2.FirstName').input().addClass('form-control pd-12');
-  editor.field( 'client2.FirstName' ).input().attr( 'placeholder', 'First Name' );
-
-  editor.field('client2.LastName').input().addClass('form-control pd-12');
-  editor.field( 'client2.LastName' ).input().attr( 'placeholder', 'Last Name' );
-
-  editor.field('client2.ContactNumber').input().addClass('form-control pd-12');
-  editor.field( 'client2.ContactNumber' ).input().attr( 'placeholder', 'Contact Number' );
-
-  editor.field('client2.Unit').input().addClass('form-control pd-12');
-  editor.field( 'client2.Unit' ).input().attr( 'placeholder', 'Unit' );
-
-  editor.field('client2.BuyingStage').input().addClass('form-control pd-12');
-  editor.field( 'client2.BuyingStage' ).input().attr( 'placeholder', 'BuyingStage' );
-
-  editor.field('client2.Country').input().addClass('form-control country select2');
-  /*$('#DTE_Field_client2-Country').append($('<option disabled selected hidden>').text('Select Country'));*/
-  editor.field('client2.ProjectName').input().addClass('form-control select2');
-
-  editor.on( 'create', function ( e, json, data ) {
-    lastClient = +lastClient + 1;
-    console.log(lastClient);
-    alert();
-  } );
-
-  editor.on('initCreate', function() {
-    editor.show(); //Shows all fields
-    editor.hide('client2.BuyingStage');
-  });
-
-  editor.on('initEdit', function() {
-    editor.show(); //Shows all fields
-    //editor.hide('client2.BuyingStage');
-  });
 
 	// Activate an inline edit on click of a table cell
 	// or a DataTables Responsive data cell
@@ -462,12 +373,10 @@ $(document).ready(function() {
 			style:    'os',
 			selector: 'td.select-checkbox'
 		},
-    buttons: {
-      buttons: [
-        { extend: "create", editor: editor, className: 'btn btn-primary' },
-        { extend: "edit",   editor: editor, className: 'btn btn-primary' }
-      ]
-    },
+		buttons: [
+			{ extend: "create", editor: editor },
+			{ extend: "edit",   editor: editor }
+		],
 		initComplete: function () {
 			this.api().columns([5, 7, 8]).every( function() {
 				var column = this;
@@ -482,7 +391,7 @@ $(document).ready(function() {
 							.draw();
 					});
 				column.data().unique().sort().each( function ( d, j ) {
-					select.append( '<option value="'+d+'">'+d.substr(0, 30)+'</option>' )
+					select.append( '<option value="'+d+'">'+d+'</option>' )
 				} );
 			} );
 		}

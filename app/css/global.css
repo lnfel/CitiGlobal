@@ -40,6 +40,82 @@ table.dataTable.display tbody tr.odd.selected, table.dataTable.display tbody tr.
   color: white;
 }
 
+table.dataTable tfoot th, table.dataTable tfoot td {
+  border-top: none;
+}
+
+/*limit width for country inline select*/
+#DTE_Field_client2-Country {
+  
+}
+
+button.dt-button {
+  color: #fff;
+  background-color: #0866C6;
+  border-color: #0866C6;
+  background-image: none;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 3px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+button.dt-button:hover:not(.disabled), button.dt-button:focus:not(.disabled),button.dt-button:active:not(.disabled), button.dt-button:active:not(.disabled):hover:not(.disabled) {
+  color: #fff;
+  background-color: #0753a1;
+  border-color: #064d95;
+  background-image: none;
+  box-shadow: none;
+}
+
+editor-field[name="client2.Country"] {
+  width: 0px;
+  height: 0px;
+}
+
+div.DTED_Lightbox_Background {
+  z-index: 2001;
+}
+
+div.DTED_Lightbox_Wrapper {
+  z-index: 2002;
+}
+
+div.DTE_Body div.DTE_Body_Content div.DTE_Field {
+  padding: 0px;
+  border: none;
+}
+
+div.DTE_Field_Type_select div.DTE_Field_Input {
+  padding: 0px;
+}
+
+div.DTE_Body div.DTE_Body_Content div.DTE_Field > div.DTE_Field_Input {
+  float: none;
+  width: 100%;
+}
+
+div.DTE_Body div.DTE_Body_Content div.DTE_Field > label {
+  width: 0%;
+  padding: 0px;
+}
+
+div.DTE_Body div.DTE_Body_Content div.DTE_Field:hover {
+  background-color: transparent;
+  border: none;
+}
+
+div.DTE_Field input[type="text"] {
+  padding: 12px;
+}
+
 @media (max-width: 991.98px) {
 	.collapsed-menu .br-logo {
 		left: 10px;
