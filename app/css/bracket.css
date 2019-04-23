@@ -11894,7 +11894,7 @@ table.dataTable {
   border-radius: 3px;
   display: none;
   width: auto !important;
-  z-index: 5 !important; }
+  z-index: 5; }
   .ui-datepicker .ui-datepicker-header {
     display: flex;
     justify-content: space-between;

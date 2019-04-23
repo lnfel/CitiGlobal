@@ -89,7 +89,7 @@
   <!-- custom form template -->
   <div id="regProspect">
     <fieldset class="name">
-      <legend>Name</legend>
+      <!-- <legend>Name</legend> -->
       <div class="form-row mg-b-0-force">
         <div class="col-sm-12 col-md-6 mg-b-20"><!-- 
           <input type="text" data-editor-template="client2.FirstName" class="form-control pd-y-12" placeholder="First Name"> -->
@@ -117,11 +117,51 @@
       </div>
       <div class="form-row mg-b-0-force">
         <div class="col-sm-12 col-md-6 mg-b-20">
-          <editor-field name="client2.BuyingStage"></editor-field>  
+          <editor-field name="client2.Source"></editor-field>  
         </div>
         <div class="col-sm-12 col-md-6 mg-b-20">
-            <!-- <editor-field name="client2.ClientID"></editor-field> -->
+          <editor-field name="client2.Facebook"></editor-field>
         </div>
+      </div>
+      <div class="form-row mg-b-0-force">
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.Email"></editor-field>  
+        </div>
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.BuyingPurpose"></editor-field>
+        </div>
+      </div>
+      <div class="form-row mg-b-0-force">
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.EstimatedAmount"></editor-field>  
+        </div>
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.FinalAmount"></editor-field>
+        </div>
+      </div>
+      <div class="form-row mg-b-0-force">
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.DateAwareness"></editor-field>  
+        </div>
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.BuyingStage"></editor-field>
+        </div>
+      </div>
+      <div class="form-row mg-b-0-force">
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.DateConsideration"></editor-field>  
+        </div>
+        <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.DateDecision"></editor-field>
+        </div>
+      </div>
+      <div class="form-row mg-b-0-force">
+        <div class="col-sm-12 mg-b-20">
+          <editor-field name="client2.Notes"></editor-field>  
+        </div>
+        <!-- <div class="col-sm-12 col-md-6 mg-b-20">
+          <editor-field name="client2.BuyingStage"></editor-field>
+        </div> -->
       </div>
 
     </fieldset>
@@ -312,6 +352,13 @@
 	<script type="text/javascript" language="javascript" src="../js/shCore.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/demo.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/editor-demo.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/buttons.print.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/buttons.html5.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/jszip.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/pdfmake.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/vfs_fonts.js"></script>
+  <script type="text/javascript" language="javascript" src="../js/dataTables.colReorder.min.js"></script>
+  <script src="../lib/jquery-ui/ui/widgets/datepicker.js"></script>
 	<script type="text/javascript" language="javascript" class="init">
 	
 
@@ -328,6 +375,7 @@ $(document).ready(function() {
   var lastClient = +$("#last-client").val() + 1;
   //var lastClient = parseInt(lastClient + 1);
 
+  // Editor
 	editor = new $.fn.dataTable.Editor( {
 		ajax: "../php/controllers/client.php",
 		table: "#client",
@@ -343,7 +391,7 @@ $(document).ready(function() {
 				type: "select",
         placeholder: "Select Country",
         //placeholderDisabled: false,
-        placeholderValue: 169
+        //placeholderValue: 169
 			}, {
 				name: "client2.Unit"
 			}, {
@@ -364,20 +412,64 @@ $(document).ready(function() {
         placeholderValue: agentID
       }, {
         name: "client2.ClientID",
-        type: "select",
-        placeholder: "Client",
+        //type: "select",
+        //placeholder: "Client",
         //placeholderDisabled: false,
-        placeholderValue: lastClient
+        //placeholderValue: lastClient
+        def: lastClient
       }, {
         name: "client2.TeamID",
         type: "select",
         placeholder: "Team",
         //placeholderDisabled: false,
         placeholderValue: teamID
+      }, {
+        name: "client2.Facebook",
+      }, {
+        name: "client2.Source",
+        type: "select",
+        placeholder: "Select Source"
+      }, {
+        name: "client2.BuyingPurpose"
+      }, {
+        name: "client2.Email"
+      }, {
+        name: "client2.EstimatedAmount"
+      }, {
+        name: "client2.FinalAmount"
+      }, {
+        name: "client2.Notes",
+        type: "textarea"
+      }, {
+        name: "client2.DateAwareness",
+        type: "datetime",
+        def: function () { return new Date(); },
+        format: 'YYYY-MM-DD'
+      }, {
+        name: "client2.DateConsideration",
+        type: "datetime",
+        //def: function () { return new Date(); },
+        format: 'YYYY-MM-DD'
+      }, {
+        name: "client2.DateDecision",
+        type: "datetime",
+        //def: function () { return new Date(); },
+        format: 'YYYY-MM-DD'
+      }, {
+        name: "client2.AverageDaysDecision"
       }
-		]
+		],
+    i18n: {
+      edit: {
+          title:  "Edit Prospect Info"
+      },
+      create: {
+          title:  "Add new Prospect"
+      }
+    }
 	} );
 
+  // Editor Settings
   editor.field('client2.FirstName').input().addClass('form-control pd-12');
   editor.field( 'client2.FirstName' ).input().attr( 'placeholder', 'First Name' );
 
@@ -397,6 +489,45 @@ $(document).ready(function() {
   /*$('#DTE_Field_client2-Country').append($('<option disabled selected hidden>').text('Select Country'));*/
   editor.field('client2.ProjectName').input().addClass('form-control select2');
 
+  editor.field('client2.Facebook').input().addClass('form-control pd-12');
+  editor.field( 'client2.Facebook' ).input().attr( 'placeholder', 'Facebook Url' );
+
+  editor.field('client2.Source').input().addClass('form-control country select2');
+
+  editor.field('client2.BuyingPurpose').input().addClass('form-control pd-12');
+  editor.field( 'client2.BuyingPurpose' ).input().attr( 'placeholder', 'Buying Purpose' );
+
+  editor.field('client2.Email').input().addClass('form-control pd-12');
+  editor.field( 'client2.Email' ).input().attr( 'placeholder', 'Email' );
+
+  editor.field('client2.Notes').input().addClass('form-control pd-12');
+  editor.field( 'client2.Notes' ).input().attr( 'placeholder', 'Notes' );
+
+  editor.field('client2.EstimatedAmount').input().addClass('form-control pd-12');
+  editor.field( 'client2.EstimatedAmount' ).input().attr( 'placeholder', 'Estimated Amount' );
+
+  editor.field('client2.FinalAmount').input().addClass('form-control pd-12');
+  editor.field( 'client2.FinalAmount' ).input().attr( 'placeholder', 'Final Amount' );
+
+  editor.field('client2.DateAwareness').input().addClass('form-control .fc-datepicker pd-12');
+  editor.field( 'client2.DateAwareness' ).input().attr( 'placeholder', 'YYYY/MM/DD' );
+
+  editor.field('client2.DateConsideration').input().addClass('form-control .fc-datepicker pd-12');
+  editor.field( 'client2.DateConsideration' ).input().attr( 'placeholder', 'YYYY/MM/DD' );
+
+  editor.field('client2.DateDecision').input().addClass('form-control .fc-datepicker pd-12');
+  editor.field( 'client2.DateDecision' ).input().attr( 'placeholder', 'YYYY/MM/DD' );
+
+
+  //$('dt-button buttons-create').on('click', function() {
+    /*$('.fc-datepicker').datepicker({
+      dateFormat: 'YYYY-MM-DD',
+      defaultDate: 
+    });*/
+  //} );
+
+  //form-control fc-datepicker
+
   editor.on( 'create', function ( e, json, data ) {
     lastClient = +lastClient + 1;
     console.log(lastClient);
@@ -405,13 +536,31 @@ $(document).ready(function() {
 
   editor.on('initCreate', function() {
     editor.show(); //Shows all fields
-    editor.hide('client2.BuyingStage');
+    editor.disable('client2.BuyingStage');
+    editor.disable('client2.DateAwareness');
+    editor.disable('client2.DateConsideration');
+    editor.disable('client2.DateDecision');
   });
 
   editor.on('initEdit', function() {
     editor.show(); //Shows all fields
+    editor.enable('client2.BuyingStage');
+    editor.disable('client2.DateAwareness');
+    editor.disable('client2.DateConsideration');
+    editor.disable('client2.DateDecision');
+    editor.field('client2.BuyingStage').input().find('option[value="1"]').attr('disabled', true);
     //editor.hide('client2.BuyingStage');
   });
+
+  /*editor.on('initSelected', function() {
+    editor.disable('client2.FirstName');
+    editor.disable('client2.LastName');
+    editor.disable('client2.Source');
+    editor.disable('client2.Facebook');
+    editor.disable('client2.Email');
+    editor.disable('client2.BuyingStage');
+    editor.disable('client2');
+  });*/
 
 	// Activate an inline edit on click of a table cell
 	// or a DataTables Responsive data cell
@@ -424,7 +573,8 @@ $(document).ready(function() {
 		editor.inline( this );
 	} );
 
-	$('#client').DataTable( {
+  // DataTable
+	var table = $('#client').DataTable( {
 		responsive: true,
 		language: {
 	        searchPlaceholder: 'Search anything',
@@ -449,14 +599,53 @@ $(document).ready(function() {
 				className: 'select-checkbox',
 				orderable: false
 			},
-			{ data: "client2.FirstName" },
-			{ data: "client2.LastName", className: 'never' },
+			{ 
+        data: "client2",
+        "render": function( data, type, row ) {
+          return '<span class="dtr-data">' + data.FirstName + ' ' + data.LastName + '</span>';
+        },
+        editField: "client2.FirstName"
+      },
 			{ data: "client2.ContactNumber" },
 			{ data: "country.nicename", editField: "client2.Country" },
 			{ data: "client2.Unit" },
 			{ data: "project_name.ProjectName", editField: "client2.ProjectName" },
-			{ data: "buying_stage.name", editField: "client2.BuyingStage" }
+			{ data: "buying_stage.name", editField: "client2.BuyingStage" },
+      { data: "client2.Facebook" },
+      { data: "source.name", editField: "client2.Source" },
+      { data: "client2.BuyingPurpose" },
+      { data: "client2.Email" },
+      { data: "client2.EstimatedAmount", render: $.fn.dataTable.render.number( ',', '.', 2, '₱' ) },
+      { data: "client2.FinalAmount", render: $.fn.dataTable.render.number( ',', '.', 2, '₱' ) },
+      { data: "client2.DateAwareness" },
+      { data: "client2.DateConsideration" },
+      { data: "client2.DateDecision" },
+      { 
+        data: "client2",
+        "render": function( data, type, row ) {
+          return data.AverageDaysDecision + ' Days';
+        }
+      },
+      { data: "client2.Notes" },
+      { data: "client2.ClientID" },
+      { data: "client2.LastName", className: 'never' },
 		],
+    "columnDefs": [ 
+      {
+        "targets": 8,
+        "data": "client2.Facebook",
+        "render": function ( data, type, row, meta ) {
+          // Prevent XSS attacks
+          var sanitized = $.fn.dataTable.render.text().display(data, type, row, meta);
+          return '<a href="https://www.'+data+'">'+sanitized+'</a>';
+        }
+      }/*,
+      {
+        "targets": 19 ,
+        "visible": false
+      }*/
+    ],
+    colReorder: true,
 		order: [ 2, 'asc' ],
 		select: {
 			style:    'os',
@@ -465,11 +654,42 @@ $(document).ready(function() {
     buttons: {
       buttons: [
         { extend: "create", editor: editor, className: 'btn btn-primary' },
-        { extend: "edit",   editor: editor, className: 'btn btn-primary' }
+        { extend: "edit",   editor: editor, className: 'btn btn-primary' },
+        {
+          extend: "selected",
+          text: "Add Unit",
+          action: function ( e, dt, node, config ) {
+            // Get values from selected row
+            var row = table.row( { selected: true } ).data();
+            var rowID = table.row( { selected: true } ).index();
+            var clientID = table.cell(rowID, 19).data();
+            console.log(row);
+            console.log(clientID);
+            // Start in edit mode, and then change to create
+            editor
+              .edit( table.rows( {selected: true} ).indexes(), {
+                title: "Add another unit",
+                buttons: "Submit"
+              } )
+              .mode( 'create' );
+          },
+          className: 'btn btn-primary'
+        },
+        {
+          extend: 'collection',
+          text: 'Export',
+          buttons: [
+              'copy',
+              'excel',
+              'csv',
+              'pdf',
+              'print'
+          ]
+        }
       ]
     },
 		initComplete: function () {
-			this.api().columns([5, 7, 8]).every( function() {
+			this.api().columns([4, 6, 7]).every( function() {
 				var column = this;
 				var select = $('<select><option value=""></option></select>')
 					.appendTo( $(column.footer()).empty() )
@@ -487,10 +707,31 @@ $(document).ready(function() {
 			} );
 		}
 	} );
+
+  /*$('#client').on('click', 'tr', function () {
+    var row = table.row( { selected: true } ).data();
+    var rowID = table.row( { selected: true } ).index();
+    var clientID = table.cell(rowID, 19).data();
+    console.log(row);
+    console.log(clientID);
+  } );*/
+
+  // Apply the filter
+  // https://datatables.net/extensions/colreorder/examples/initialisation/col_filter.html
+  $("#client tfoot input").on( 'keyup change', function () {
+    table
+        .column( $(this).parent().index()+':visible' )
+        .search( this.value )
+        .draw();
+  } );
 } );
+// Notes
+// Prevent XSS attacks
+// https://datatables.net/forums/discussion/comment/123474/#Comment_123474
 
-
-
+// All field types
+// https://editor.datatables.net/reference/field/
 	</script>
+
 </body>
 </html>

@@ -25,11 +25,11 @@ Editor::inst($db, 'client2')
 		Field::inst( 'client2.TeamID' ),
 		Field::inst( 'client2.FirstName' )
 			->validator( Validate::notEmpty( ValidateOptions::inst()
-				->message( 'A first name is required' )
+				->message( 'A first name is required.' )
 			) ),
 		Field::inst( 'client2.LastName' )
 			->validator( Validate::notEmpty( ValidateOptions::inst()
-				->message( 'A last name is required' )
+				->message( 'A last name is required.' )
 			) ),
 		Field::inst( 'client2.ContactNumber' ),
 		Field::inst( 'client2.Country' )
@@ -38,17 +38,44 @@ Editor::inst($db, 'client2')
 				->value( 'id' )
 				->label( 'nicename' )
 			)
-			->validator( Validate::dbValues() ),
+			->validator( Validate::dbValues() )
+			->validator( Validate::notEmpty( ValidateOptions::inst()
+				->message( 'Please select a country.' )
+			) ),
 		Field::inst( 'country.nicename' ),
 		Field::inst( 'client2.Unit' ),
+		Field::inst( 'client2.Facebook' ),
+		Field::inst( 'client2.Email' ),
+		Field::inst( 'client2.EstimatedAmount' ),
+		Field::inst( 'client2.FinalAmount' ),
+		Field::inst( 'client2.DateAwareness' ),
+		Field::inst( 'client2.DateConsideration' ),
+		Field::inst( 'client2.DateDecision' ),
+		Field::inst( 'client2.AverageDaysDecision' ),
+		Field::inst( 'client2.Notes' ),
+		Field::inst( 'client2.Source' )
+			->options( Options::inst()
+				->table( 'source' )
+				->value( 'id' )
+				->label( 'name' )
+			)
+			->validator( Validate::dbValues() )
+			->validator( Validate::notEmpty( ValidateOptions::inst()
+				->message( 'Please determine source.' )
+			) ),
+		Field::inst( 'source.name' ),
 		Field::inst( 'client2.ProjectName' )
 			->options( Options::inst()
 				->table( 'project_name' )
 				->value( 'id' )
 				->label( 'ProjectName' )
 			)
-			->validator( Validate::dbValues() ),
+			->validator( Validate::dbValues() )
+			->validator( Validate::notEmpty( ValidateOptions::inst()
+				->message( 'Please select a project.' )
+			) ),
 		Field::inst( 'project_name.ProjectName' ),
+		Field::inst( 'client2.BuyingPurpose' ),
 		Field::inst( 'client2.BuyingStage' )
 			->options( Options::inst()
 				->table( 'buying_stage' )
@@ -61,6 +88,7 @@ Editor::inst($db, 'client2')
 	->where( function($q) use ( $agentID ) {
 		$q->where( 'client2.AccountID', $agentID );
 	} )
+	->leftJoin( 'source', 'source.id', '=', 'client2.Source' )
 	->leftJoin( 'buying_stage', 'buying_stage.id', '=', 'client2.BuyingStage' )
 	->leftJoin( 'country', 'country.id', '=', 'client2.Country' )
 	->leftJoin( 'project_name', 'project_name.id', '=', 'client2.ProjectName' )
